@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'hz-date-picker';
+  date: Date;
+  dateArr: Date[];
 }

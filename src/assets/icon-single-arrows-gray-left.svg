@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>形状@1x</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="512" height="330" rx="8"></rect>
+        <filter x="-5.5%" y="-6.1%" width="110.9%" height="117.0%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="8" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="8" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.062745098   0 0 0 0 0.188235294   0 0 0 0 0.4  0 0 0 0.08 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feGaussianBlur stdDeviation="4" in="shadowOffsetOuter2" result="shadowBlurOuter2"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.062745098   0 0 0 0 0.188235294   0 0 0 0 0.4  0 0 0 0.03 0" type="matrix" in="shadowBlurOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="页面1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板" transform="translate(-85.000000, -4280.000000)">
+            <rect fill="#FAFAFA" x="0" y="0" width="1440" height="5056"></rect>
+            <g id="编组-28" transform="translate(49.000000, 4234.000000)">
+                <g id="矩形">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+                <g id="编组-26" transform="translate(0.000000, 44.000000)" fill="#566276" fill-opacity="0.64">
+                    <g id="编组" transform="translate(36.000000, 2.000000)">
+                        <polygon id="形状" transform="translate(7.780330, 7.853555) scale(-1, 1) translate(-7.780330, -7.853555) " points="9.20711 7.5 6.70711 5 6 5.70711 8.14645 7.85356 6 10 6.70711 10.70711 9.20711 8.20711 9.56066 7.85356"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

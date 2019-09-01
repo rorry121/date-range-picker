@@ -1,0 +1,21 @@
+<section class="hz-range-date-picker">
+  <article class="hz-range-date-input-wrap">
+    <div class="date-picker-input">
+      <span>{{(rangeDate[0] | date: 'yyyy-MM-dd: HH:mm:ss') || '开始日期'}}</span>
+<!--      <input type="text" readonly placeholder="开始时间" [(ngModel)]="rangeDate[0]">-->
+    </div>
+     ~
+    <div class="date-picker-input">
+      <span>{{(rangeDate[1] | date: 'yyyy-MM-dd: HH:mm:ss') || '结束日期'}}</span>
+<!--      <input type="text" readonly placeholder="结束时间" [(ngModel)]="rangeDate[1]">-->
+    </div>
+  </article>
+  <article class="hz-range-date-wrap">
+    <app-hz-date-month #LDMComponent [isRange]="true" [rangeStart]="true" [rangeDate]="rangeDate"></app-hz-date-month>
+    <app-hz-date-month #RDMComponent [isRange]="true" [rangeEnd]="true" [rangeDate]="rangeDate"></app-hz-date-month>
+  </article>
+  <article class="hz-range-date-actions">
+    <button>选择时间</button>
+    <button [disabled]="!rangeSelected" (click)="rangeConfirmClick()">确定</button>
+  </article>
+</section>

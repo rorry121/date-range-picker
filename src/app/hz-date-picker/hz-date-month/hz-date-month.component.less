@@ -1,0 +1,182 @@
+@hz-date-picker-blue-text: #2B79FF;
+@hz-date-picker-bottom-line: 1px solid rgba(15, 34, 67, 0.12);
+@hz-date-picker-thead-color: rgba(15, 34, 67, 0.42);
+@hz-date-picker-cell-color: rgba(15, 34, 67, 0.72);
+@hz-date-picker-cell-hover-bg: rgba(43, 121, 255, 0.10);
+@hz-date-picker-cell-selected-bg: #2375FF;
+
+::ng-deep.hz-date-month {
+  width: 248px;
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: inline-block;
+      height: 24px;
+      width: 24px;
+      line-height: 24px;
+      margin: 0px 4px;
+      text-align: center;
+      box-sizing: border-box !important;
+    }
+  }
+
+  .hz-date-month-nav {
+    text-align: center;
+    height: 36px;
+    line-height: 36px;
+    box-sizing: border-box !important;
+    font-size: 12px;
+    color: @hz-date-picker-cell-color;
+    padding: 0 8px;
+    border-bottom: @hz-date-picker-bottom-line;
+
+    a {
+      font-weight: bold;
+      user-select: none;
+      cursor: pointer;
+      padding: 0 2px;
+      display: inline-block;
+
+      &:hover {
+        color: @hz-date-picker-blue-text;
+      }
+
+      &.select-year span {
+        width: 35px;
+        display: inline-block;
+      }
+
+      &.select-month span {
+        width: 15px;
+        display: inline-block;
+      }
+    }
+
+    i {
+      display: inline-block;
+      cursor: pointer;
+      height: 16px;
+      width: 16px;
+      margin: 10px 4px;
+    }
+
+    .pre-year {
+      float: left;
+      background: url('../../../assets/icon-double-arrows-gray-left.svg') center center no-repeat;
+      background-size: 150%;
+    }
+
+    .pre-month {
+      float: left;
+      background: url('../../../assets/icon-single-arrows-gray-left.svg') center center no-repeat;
+      background-size: 150%;
+    }
+
+    .next-month {
+      float: right;
+      background: url('../../../assets/icon-single-arrows-gray-left.svg') center center no-repeat;
+      background-size: 150%;
+      transform: rotate(180deg);
+    }
+
+    .next-year {
+      float: right;
+      background: url('../../../assets/icon-double-arrows-gray-left.svg') center center no-repeat;
+      background-size: 150%;
+      transform: rotate(180deg);
+    }
+  }
+
+  .hz-date-month-table {
+    font-size: 12px;
+    padding: 8px 12px;
+
+    .hz-date-month-thead {
+      li {
+        cursor: default;
+        font-weight: bold;
+        color: @hz-date-picker-thead-color;
+        text-align: center;
+      }
+    }
+
+    .hz-date-month-tbody {
+      .hz-datepicker-cell {
+        display: inline-block;
+        margin: 2px 0;
+        li {
+          cursor: pointer;
+          color: @hz-date-picker-cell-color;
+          text-align: center;
+
+          &:hover {
+            background-color: @hz-date-picker-cell-hover-bg;
+          }
+        }
+
+        &.hz-datepicker-last-month-cell, &.hz-datepicker-next-month-cell {
+          &:hover {
+            li {
+              background: unset;
+            }
+          }
+        }
+      }
+
+      .hz-datepicker-next-month-cell, .hz-datepicker-last-month-cell {
+        opacity: .3;
+      }
+
+      .hz-datepicker-today-cell {
+        li {
+          font-weight: bold;
+          color: @hz-date-picker-blue-text;
+          border: 1px solid @hz-date-picker-blue-text;
+          border-radius: 2px;
+        }
+
+        &.hz-datepicker-last-month-cell, &.hz-datepicker-next-month-cell {
+          border: none;
+          &:hover {
+            li {
+              background: unset;
+              color: @hz-date-picker-cell-color;
+            }
+          }
+        }
+      }
+
+      .hz-datepicker-in-range-cell {
+        background: @hz-date-picker-cell-hover-bg;
+
+        &.hz-datepicker-last-month-cell, &.hz-datepicker-next-month-cell {
+          background-color: unset;
+        }
+
+        &:hover li {
+          background: unset;
+        }
+      }
+
+      .hz-datepicker-range-start-cell, .hz-datepicker-range-end-cell, .hz-datepicker-selected-cell {
+        &:hover li, li {
+          background-color: @hz-date-picker-cell-selected-bg;
+          border-radius: 2px;
+          color: rgba(255, 255, 255);
+        }
+
+        &.hz-datepicker-last-month-cell, &.hz-datepicker-next-month-cell {
+          li {
+            background-color: unset;
+            border-radius: unset;
+            color: @hz-date-picker-cell-color;
+          }
+        }
+      }
+    }
+  }
+}

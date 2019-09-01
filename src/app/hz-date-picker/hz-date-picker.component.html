@@ -1,0 +1,29 @@
+<section class="hz-date-picker" (click)="showOverlay($event)">
+<!--  <div>{{dateValue | date: 'yyyy-MM-dd'}}</div>-->
+  <article class="hz-single-date-picker-outlet" *ngIf="!isRange; else rangePickerInput">
+    <input type="text" placeholder="选择日期" [(ngModel)]="dateValue" readonly>
+  </article>
+  <ng-template #rangePickerInput>
+    <article class="hz-range-date-picker-outlet">
+      <input type="text" placeholder="开始日期" [(ngModel)]="dateValue[0]" readonly>
+      <span> ～ </span>
+      <input type="text" placeholder="结束日期" [(ngModel)]="dateValue[1]" readonly>
+    </article>
+  </ng-template>
+</section>
+
+<ng-template #singleDatePickTemplate>
+  <section class="hz-date-picker-single-container">
+    <article class="hz-range-date-input-wrap">
+      <div class="date-picker-input">
+<!--        <input type="text" readonly [(ngModel)]="dateValue" placeholder="请选择日期">-->
+        <span>{{(dateValue | date: 'yyyy-MM-dd: HH:mm:ss') || '请选择日期'}}</span>
+      </div>
+    </article>
+    <app-hz-date-month [dateValue]="dateValue" (cellClick)="onCellClick($event)"></app-hz-date-month>
+  </section>
+</ng-template>
+
+<ng-template #rangeDatePickTemplate>
+  <app-hz-date-range [rangeDate]="dateValue" (rangeConfirm)="onRangeConfirm($event)"></app-hz-date-range>
+</ng-template>
