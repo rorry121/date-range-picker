@@ -5,7 +5,6 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-hz-date-cell',
   templateUrl: './hz-date-cell.component.html',
-  styleUrls: ['./hz-date-cell.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HzDateCellComponent implements OnInit, OnDestroy {

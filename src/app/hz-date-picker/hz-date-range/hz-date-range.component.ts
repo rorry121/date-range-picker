@@ -18,7 +18,6 @@ import { mergeMap } from 'rxjs/internal/operators/mergeMap';
 @Component({
   selector: 'app-hz-date-range',
   templateUrl: './hz-date-range.component.html',
-  styleUrls: ['./hz-date-range.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HzDateRangeComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -26,7 +25,11 @@ export class HzDateRangeComponent implements OnInit, AfterViewInit, OnDestroy {
   destroy$ = new Subject();
   rangeSelected = false;
   @Input() rangeDate: Date[] = [];
+  @Input() placeholder: Array<string>;
+  @Input() format: string;
+  @Input() showTime = true;
   @Output() rangeConfirm = new EventEmitter<Date[]>();
+  @Output() rangeCancel = new EventEmitter();
   @ViewChildren(HzDateMonthComponent) listOfHzDateMonthComponent: QueryList<HzDateMonthComponent>;
   @ViewChild('LDMComponent', {static: false}) LDMComponent: HzDateMonthComponent;
   @ViewChild('RDMComponent', {static: false}) RDMComponent: HzDateMonthComponent;
@@ -283,6 +286,10 @@ export class HzDateRangeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   rangeConfirmClick() {
     this.rangeConfirm.emit(this.rangeDate);
+  }
+
+  rangeCancelClick() {
+    this.rangeCancel.emit();
   }
 
   ngOnDestroy(): void {

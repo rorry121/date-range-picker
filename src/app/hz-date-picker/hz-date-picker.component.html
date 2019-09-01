@@ -1,29 +1,45 @@
 <section class="hz-date-picker" (click)="showOverlay($event)">
-<!--  <div>{{dateValue | date: 'yyyy-MM-dd'}}</div>-->
   <article class="hz-single-date-picker-outlet" *ngIf="!isRange; else rangePickerInput">
-    <input type="text" placeholder="选择日期" [(ngModel)]="dateValue" readonly>
+    <span>{{(dateValue | date: format) || placeholder}}</span>
+    <!--    <input type="text" placeholder="{{placeholder}}" [(ngModel)]="dateValue" readonly>-->
+    <i class="icon-date-picker"></i>
   </article>
   <ng-template #rangePickerInput>
     <article class="hz-range-date-picker-outlet">
-      <input type="text" placeholder="开始日期" [(ngModel)]="dateValue[0]" readonly>
-      <span> ～ </span>
-      <input type="text" placeholder="结束日期" [(ngModel)]="dateValue[1]" readonly>
+      <span class="hz-range-date">{{(dateValue[0] | date: format) || placeholder[0]}}</span>
+      <!--      <input type="text" placeholder="{{placeholder[0]}}" [(ngModel)]="dateValue[0]" readonly>-->
+      <span class="range-to"> ～ </span>
+      <span class="hz-range-date">{{(dateValue[1] | date: format) || placeholder[1]}}</span>
+      <!--      <input type="text" placeholder="{{placeholder[1]}}" [(ngModel)]="dateValue[1]" readonly>-->
+      <i class="icon-date-picker"></i>
     </article>
   </ng-template>
 </section>
 
 <ng-template #singleDatePickTemplate>
   <section class="hz-date-picker-single-container">
-    <article class="hz-range-date-input-wrap">
+    <article class="hz-date-input-wrap">
       <div class="date-picker-input">
-<!--        <input type="text" readonly [(ngModel)]="dateValue" placeholder="请选择日期">-->
-        <span>{{(dateValue | date: 'yyyy-MM-dd: HH:mm:ss') || '请选择日期'}}</span>
+        <!--        <input type="text" readonly [(ngModel)]="dateValue" placeholder="请选择日期">-->
+        <span>{{(singleModalDate | date: format) || placeholder}}</span>
       </div>
     </article>
-    <app-hz-date-month [dateValue]="dateValue" (cellClick)="onCellClick($event)"></app-hz-date-month>
+    <article class="hz-date-wrap">
+      <app-hz-date-month [dateValue]="singleModalDate" (cellClick)="onCellClick($event)"></app-hz-date-month>
+    </article>
+    <article class="hz-date-actions">
+      <button (click)="onSingleConfirm()">确定</button>
+      <button (click)="closeSingleModal()">取消</button>
+    </article>
   </section>
 </ng-template>
 
 <ng-template #rangeDatePickTemplate>
-  <app-hz-date-range [rangeDate]="dateValue" (rangeConfirm)="onRangeConfirm($event)"></app-hz-date-range>
+  <app-hz-date-range [rangeDate]="rangeModalDate"
+                     [showTime]="showTime"
+                     [format]="format"
+                     [placeholder]="placeholder"
+                     (rangeConfirm)="onRangeConfirm($event)"
+                     (rangeCancel)="closeRangeModal()"
+  ></app-hz-date-range>
 </ng-template>

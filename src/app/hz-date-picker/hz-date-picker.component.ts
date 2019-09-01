@@ -4,7 +4,7 @@ import {
   ChangeDetectorRef,
   Component, ContentChildren,
   ElementRef,
-  forwardRef,
+  forwardRef, HostBinding,
   Input,
   OnInit, QueryList,
   TemplateRef, ViewChild, ViewChildren, ViewContainerRef
@@ -20,7 +20,6 @@ import { HzDateMonthComponent } from './hz-date-month/hz-date-month.component';
 @Component({
   selector: 'app-hz-date-picker',
   templateUrl: './hz-date-picker.component.html',
-  styleUrls: ['./hz-date-picker.component.less'],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     multi: true,
@@ -32,13 +31,18 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
   @Input() isRange = false;
   @Input() showTime = true;
   @Input() format: string;
+  @Input() placeholder: string | Array<string>;
   dateValue: CompatibleDate = null;
+  singleModalDate: Date;
+  rangeModalDate: Date[];
   singleDateOverlayRef: OverlayRef;
   rangeDateOverlayRef: OverlayRef;
   cell: DateDayCell;
   @ViewChild('singleDatePickTemplate', {static: false}) singleDatePickTemplate: TemplateRef<any>;
   @ViewChild('rangeDatePickTemplate', {static: false}) rangeDatePickTemplate: TemplateRef<any>;
   @ViewChildren(HzDateCellComponent) listOfDateCellComponent: QueryList<HzDateCellComponent>;
+
+  @HostBinding('style.cursor') cursor = 'pointer';
 
   constructor(
     private cdf: ChangeDetectorRef,
@@ -71,7 +75,12 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
 
   initValue() {
     this.dateValue = this.isRange ? [] : null;
-    this.format = this.showTime ? 'yyyy-MM-dd: hh:mm:ss' : 'yyyy-MM-dd';
+    if (!this.format) {
+      this.format = this.showTime ? 'yyyy-MM-dd: HH:mm:ss' : 'yyyy-MM-dd';
+    }
+    if (!this.placeholder ) {
+      this.placeholder = this.isRange ? ['开始日期', '结束日期'] : '请选择日期';
+    }
   }
 
   showOverlay(event: MouseEvent) {
@@ -79,9 +88,10 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
       if (this.singleDateOverlayRef && this.singleDateOverlayRef.hasAttached()) {
         this.singleDateOverlayRef.detach();
       } else {
+        this.singleModalDate = this.dateValue as Date;
         const StartAlignBottomWithTop: ConnectedPosition[] = [
-          {originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top'},
-          {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom'},
+          {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'top'},
+          {originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'bottom'},
         ];
         this.singleDateOverlayRef = this.show(event.currentTarget as HTMLElement, this.singleDatePickTemplate, this.vc, StartAlignBottomWithTop);
       }
@@ -89,11 +99,12 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
       if (this.rangeDateOverlayRef && this.rangeDateOverlayRef.hasAttached()) {
         this.rangeDateOverlayRef.detach();
       } else {
+        this.rangeModalDate = [...this.dateValue as Date[]];
         const StartAlignBottomWithTop: ConnectedPosition[] = [
-          {originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top'},
-          {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom'},
-          {originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top'},
-          {originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom'},
+          {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'top'},
+          {originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'bottom'},
+          {originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'top'},
+          {originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'bottom'},
         ];
         this.rangeDateOverlayRef = this.show(event.currentTarget as HTMLElement, this.rangeDatePickTemplate, this.vc, StartAlignBottomWithTop);
       }
@@ -101,7 +112,11 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
   }
 
   onCellClick(event: DateDayCell) {
-    this.dateValue = event.value;
+    this.singleModalDate = event.value;
+  }
+
+  onSingleConfirm() {
+    this.dateValue = this.singleModalDate;
     if (this.singleDateOverlayRef && this.singleDateOverlayRef.hasAttached()) {
       this.singleDateOverlayRef.detach();
     }
@@ -114,6 +129,18 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
       this.rangeDateOverlayRef.detach();
     }
     this.cdf.detectChanges();
+  }
+
+  closeSingleModal() {
+    if (this.singleDateOverlayRef && this.singleDateOverlayRef.hasAttached()) {
+      this.singleDateOverlayRef.detach();
+    }
+  }
+
+  closeRangeModal() {
+    if (this.rangeDateOverlayRef && this.rangeDateOverlayRef.hasAttached()) {
+      this.rangeDateOverlayRef.detach();
+    }
   }
 
   // 根据点击元素，展示 modal

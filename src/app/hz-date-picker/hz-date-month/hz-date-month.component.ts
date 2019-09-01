@@ -23,7 +23,6 @@ const SHOW_DAY_NUM = 42;
 @Component({
   selector: 'app-hz-date-month',
   templateUrl: './hz-date-month.component.html',
-  styleUrls: ['./hz-date-month.component.less'],
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HzDateMonthComponent implements OnInit, AfterViewInit, OnDestroy {
