@@ -17,7 +17,7 @@ import { merge } from 'rxjs/internal/observable/merge';
 import { startWith, take, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
-const ONE_DAY_MILLISECOND = 24 * 60 * 60 * 1000;  // 一天的毫秒数
+export const ONE_DAY_MILLISECOND = 24 * 60 * 60 * 1000;  // 一天的毫秒数
 const SHOW_DAY_NUM = 42;
 
 @Component({
@@ -134,6 +134,9 @@ export class HzDateMonthComponent implements OnInit, AfterViewInit, OnDestroy {
         // isSelectedStartDate:
         // isSelectedEndDate:
       };
+      if (cell.isSelected) {
+        this.lastSelectedCell = cell;
+      }
       this.monthCells.push(cell);
     }
   }

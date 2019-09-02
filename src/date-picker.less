@@ -2,11 +2,14 @@
 @hz-date-picker-blue-text: rgba(43, 121, 255, 1);
 @hz-date-picker-blue-of-50: rgba(43, 121, 255, .5);
 @hz-date-picker-bottom-line: 1px solid rgba(15, 34, 67, 0.12);
-@hz-date-picker-thead-color: rgba(15, 34, 67, 0.42);
+@hz-date-picker-thead-color: rgba(15, 34, 67, 0.72);
 @hz-date-picker-cell-color: rgba(15, 34, 67, 0.72);
-@hz-date-picker-cell-hover-bg: rgba(43, 121, 255, 0.10);
-@hz-date-picker-cell-selected-bg: #2375FF;
+@hz-date-picker-cell-hover-bg: rgba(43, 121, 255, 0.10); // 蓝色，白色统一
+@hz-date-picker-cell-selected-bg: #2b79ff; // // 蓝色，白色统一
 @hz-date-picker-bg: #ffffff;
+
+
+
 .hz-date-picker {
   .hz-single-date-picker-outlet, .hz-range-date-picker-outlet {
     position: relative;
@@ -127,10 +130,11 @@
     }
   }
   .hz-range-date-wrap {
-    border-bottom: 1px solid @hz-date-picker-bottom-line;
+    border-bottom: @hz-date-picker-bottom-line;
   }
 }
 .hz-date-month {
+  user-select: none;
   width: 248px;
 
   ul {

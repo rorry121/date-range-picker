@@ -10,7 +10,7 @@ import {
   ViewChildren
 } from '@angular/core';
 import { DateDayCell } from '../hz-date-picker.interface';
-import { HzDateMonthComponent } from '../hz-date-month/hz-date-month.component';
+import { HzDateMonthComponent, ONE_DAY_MILLISECOND } from '../hz-date-month/hz-date-month.component';
 import { merge, Subject } from 'rxjs';
 import { filter, startWith, take, takeUntil } from 'rxjs/operators';
 import { mergeMap } from 'rxjs/internal/operators/mergeMap';
@@ -96,11 +96,7 @@ export class HzDateRangeComponent implements OnInit, AfterViewInit, OnDestroy {
         // 点击上一月的日期
         if (cell.isLastMonth) {
           // 左侧日期框为右侧侧的上一个月
-          if ((this.LDMComponent.curYear === this.RDMComponent.curYear &&
-            this.LDMComponent.curMonth === this.RDMComponent.curMonth - 1) ||
-            (this.LDMComponent.curYear === this.RDMComponent.curYear - 1 &&
-              this.LDMComponent.curMonth === 12 && this.RDMComponent.curMonth === 1)
-          ) {
+          if ((this.LDMComponent.curYear * 12 + this.LDMComponent.curMonth - this.RDMComponent.curYear * 12 - this.RDMComponent.curMonth) === -1) {
             // 左侧侧选中右侧点击的日期
             const sameCell = this.LDMComponent.monthCells.find(e => e.title === cell.title);
             this.handleRangeSelect(sameCell);
@@ -265,6 +261,15 @@ export class HzDateRangeComponent implements OnInit, AfterViewInit, OnDestroy {
   handleRangeSelect(cell: DateDayCell) {
     if (!this.tempRangeDate.length) {
       this.handleWhenLengthZorro(cell);
+    } else if (this.tempRangeDate.length === 1) {
+      // 不移出，连续点两次同一 cell
+      if (this.tempRangeDate[0].title === cell.title) {
+        this.tempRangeDate[1] = {...cell};
+        // this.tempRangeDate[1].value = new Date(new Date(this.tempRangeDate[0].title).getTime() + ONE_DAY_MILLISECOND - 1);
+        this.rangeDate[0] = this.tempRangeDate[0].value;
+        this.rangeDate[1] = this.tempRangeDate[1].value;
+        this.rangeSelected = true;
+      }
     } else if (this.tempRangeDate.length === 2) {
       // 这里的cell 可能为左右日期框对应过去的新cell
       // 点击日期 和 this.tempRangeDate[0] 是同一天
