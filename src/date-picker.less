@@ -131,6 +131,13 @@
   }
   .hz-range-date-wrap {
     border-bottom: @hz-date-picker-bottom-line;
+    .hz-time-picker-wrap {
+      display: inline-block;
+      border-right: @hz-date-picker-bottom-line;
+      &:last-child {
+        border-right: none;
+      }
+    }
   }
 }
 .hz-date-month {
@@ -222,7 +229,7 @@
 
   .hz-date-month-table {
     font-size: 12px;
-    padding: 8px 12px;
+    padding: 12px;
 
     .hz-date-month-thead {
       li {
@@ -340,3 +347,59 @@
 .hz-date-actions {
   padding-right: 0;
 }
+
+.hz-time-picker-wrap {
+  font-size: 12px;
+  color: @hz-date-picker-cell-color;
+  .hz-time-picker-day {
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    border-bottom: @hz-date-picker-bottom-line;
+    font-weight: bold;
+  }
+  .hz-time-picker-content {
+
+  }
+}
+.hz-time-picker {
+  height: 216px;
+  font-size: 12px;
+  display: flex;
+  article {
+    border-right: @hz-date-picker-bottom-line;
+    &:last-child {
+      border-right: none;
+    }
+  }
+  ul {
+    list-style: none;
+    width: 100%;
+    padding: 0 0 192px 0;
+    margin: 0;
+    li {
+      cursor: pointer;
+      height: 24px;
+      line-height: 24px;
+      text-align: left;
+      padding: 0 0 0 32px;
+      &:hover {
+        background: @hz-date-picker-cell-hover-bg;
+      }
+      &.active {
+        background: @hz-date-picker-cell-hover-bg;
+        color: @hz-date-picker-cell-selected-bg;
+        font-weight: bold;
+      }
+    }
+  }
+  .hz-time-picker-hour, .hz-time-picker-minute, .hz-time-picker-second {
+    overflow: hidden;
+    width: 82px;
+    &:hover {
+      overflow-y: auto;
+    }
+  }
+
+}
+

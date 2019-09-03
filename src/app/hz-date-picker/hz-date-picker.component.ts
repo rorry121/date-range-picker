@@ -34,6 +34,7 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
   @Input() placeholder: string | Array<string>;
   dateValue: CompatibleDate = null;
   singleModalDate: Date;
+  singleModalType: 0 | 1 = 0;
   rangeModalDate: Date[];
   singleDateOverlayRef: OverlayRef;
   rangeDateOverlayRef: OverlayRef;
@@ -74,6 +75,7 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
   }
 
   initValue() {
+    this.singleModalType = 0;
     this.dateValue = this.isRange ? [] : null;
     if (!this.format) {
       this.format = this.showTime ? 'yyyy-MM-dd: HH:mm:ss' : 'yyyy-MM-dd';
@@ -88,6 +90,7 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
       if (this.singleDateOverlayRef && this.singleDateOverlayRef.hasAttached()) {
         this.singleDateOverlayRef.detach();
       } else {
+        this.singleModalType = 0;
         this.singleModalDate = this.dateValue as Date;
         const StartAlignBottomWithTop: ConnectedPosition[] = [
           {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'top'},
@@ -114,6 +117,22 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
   onCellClick(event: DateDayCell) {
     this.singleModalDate = event.value;
   }
+
+
+  // 单日期框选择时间
+  changeModelType() {
+    if (this.singleModalType) {
+      this.singleModalType = 0;
+    } else {
+      this.singleModalType = 1;
+    }
+    this.cdf.detectChanges();
+  }
+
+  // onTimeClick(date: Date) {
+  //   console.log('test:', this.singleModalDate);
+  //   this.singleModalDate = date;
+  // }
 
   onSingleConfirm() {
     this.dateValue = this.singleModalDate;

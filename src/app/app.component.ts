@@ -9,4 +9,5 @@ export class AppComponent {
   title = 'hz-date-picker';
   date: Date;
   dateArr: Date[];
+  time = new Date();
 }

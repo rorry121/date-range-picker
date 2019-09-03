@@ -32,6 +32,8 @@ export class HzDateMonthComponent implements OnInit, AfterViewInit, OnDestroy {
   monthHeader = ['一', '二', '三', '四', '五', '六', '日'];
   lastSelectedCell: DateDayCell;
   destroy$ = new Subject();
+  rangeStartCell: DateDayCell;
+  rangeEndCell: DateDayCell;
 
   @Input() dateValue: Date;
   @Input() isRange = false;
@@ -48,8 +50,10 @@ export class HzDateMonthComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.initDate();
-    this.makeMonthCells();
+    if (!this.isRange) {
+      this.initDate();
+      this.makeMonthCells();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -98,8 +102,6 @@ export class HzDateMonthComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.rangeEnd && this.rangeDate[1]) {
         this.curMonth = this.rangeDate[1].getMonth() + 1;
         this.curYear = this.rangeDate[1].getFullYear();
-        // 月份再 + 1
-        this.changeMonth(true);
       } else if (this.rangeEnd && !this.rangeDate[1]) {
         this.curMonth = new Date().getMonth() + 1;
         this.curYear = new Date().getFullYear();
@@ -127,15 +129,21 @@ export class HzDateMonthComponent implements OnInit, AfterViewInit, OnDestroy {
       const cell = {
         value,
         title: value.toLocaleDateString(),
-        isToday: new Date().toString().slice(0, 15) === value.toString().slice(0, 15),
+        isToday: this.isSameDay(value, new Date()),
         isLastMonth: distance < 0,
         isNextMonth: distance > 0 && value.getMonth() !== this.curMonth - 1,
-        isSelected: this.dateValue && this.dateValue.toString().slice(0, 15) === value.toString().slice(0, 15),
-        // isSelectedStartDate:
-        // isSelectedEndDate:
+        isSelected: this.dateValue && this.isSameDay(value, this.dateValue),
+        isSelectedStartDate: this.isRange && this.rangeStart && this.rangeDate[0] && this.isSameDay(this.rangeDate[0], value),
+        isSelectedEndDate: this.isRange && this.rangeEnd && this.rangeDate[1] && this.isSameDay(this.rangeDate[1], value),
       };
       if (cell.isSelected) {
         this.lastSelectedCell = cell;
+      }
+      if (cell.isSelectedStartDate) {
+        this.rangeStartCell = cell;
+      }
+      if (cell.isSelectedEndDate) {
+        this.rangeEndCell = cell;
       }
       this.monthCells.push(cell);
     }
@@ -175,6 +183,10 @@ export class HzDateMonthComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
     this.makeMonthCells();
+  }
+
+  isSameDay(date1: Date, date2: Date) {
+    return (date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate());
   }
 
 }

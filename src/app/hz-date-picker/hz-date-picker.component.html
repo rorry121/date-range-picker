@@ -25,11 +25,25 @@
       </div>
     </article>
     <article class="hz-date-wrap">
-      <app-hz-date-month [dateValue]="singleModalDate" (cellClick)="onCellClick($event)"></app-hz-date-month>
+      <ng-container *ngIf="!singleModalType else singleTimePickerTemplate">
+        <app-hz-date-month [dateValue]="singleModalDate" (cellClick)="onCellClick($event)"></app-hz-date-month>
+      </ng-container>
     </article>
     <article class="hz-date-actions">
+      <button [disabled]="!singleModalDate" (click)="changeModelType()">{{singleModalType ? '选择日期' : '选择时间'}}</button>
       <button (click)="onSingleConfirm()">确定</button>
       <button (click)="closeSingleModal()">取消</button>
+    </article>
+  </section>
+</ng-template>
+
+<ng-template #singleTimePickerTemplate>
+  <section class="hz-time-picker-wrap">
+    <article class="hz-time-picker-day">
+      <span>{{singleModalDate | date: 'yyyy年MM月dd日'}}</span>
+    </article>
+    <article class="hz-time-picker-content">
+      <hz-time-picker [(ngModel)]="singleModalDate"></hz-time-picker>
     </article>
   </section>
 </ng-template>

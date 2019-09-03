@@ -10,13 +10,35 @@
 <!--      <input type="text" readonly placeholder="结束时间" [(ngModel)]="rangeDate[1]">-->
     </div>
   </article>
-  <article class="hz-range-date-wrap">
+  <article class="hz-range-date-wrap" [hidden]="!modalType">
     <app-hz-date-month #LDMComponent [isRange]="true" [rangeStart]="true" [rangeDate]="rangeDate"></app-hz-date-month>
     <app-hz-date-month #RDMComponent [isRange]="true" [rangeEnd]="true" [rangeDate]="rangeDate"></app-hz-date-month>
   </article>
+  <article class="hz-range-date-wrap" [hidden]="modalType">
+    <ng-container *ngTemplateOutlet="rangeTimePickerTemplate"></ng-container>
+  </article>
   <article class="hz-range-date-actions">
-    <button>选择时间</button>
+    <button (click)="changModalType()" [disabled]="!rangeSelected">{{modalType ? '选择日期': '选择时间'}}</button>
     <button [disabled]="!rangeSelected" (click)="rangeConfirmClick()">确定</button>
     <button (click)="rangeCancelClick()">取消</button>
   </article>
 </section>
+
+<ng-template #rangeTimePickerTemplate>
+  <section class="hz-time-picker-wrap">
+    <article class="hz-time-picker-day">
+      <span>{{rangeDate[0] | date: 'yyyy年MM月dd日'}}</span>
+    </article>
+    <article class="hz-time-picker-content">
+      <hz-time-picker [(ngModel)]="rangeDate[0]"></hz-time-picker>
+    </article>
+  </section>
+  <section class="hz-time-picker-wrap">
+    <article class="hz-time-picker-day">
+      <span>{{rangeDate[1] | date: 'yyyy年MM月dd日'}}</span>
+    </article>
+    <article class="hz-time-picker-content">
+      <hz-time-picker [(ngModel)]="rangeDate[1]"></hz-time-picker>
+    </article>
+  </section>
+</ng-template>
