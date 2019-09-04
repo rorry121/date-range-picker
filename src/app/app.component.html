@@ -6,6 +6,5 @@
 </section>
 
 <section style="width: 400px; height: 150px">
-  <hz-time-picker [(ngModel)]="time"></hz-time-picker>
+  <hz-time-picker [(ngModel)]="time" [onlyTime]="true" [type]="'string'"></hz-time-picker>
 </section>
-<h2>{{time | date: 'yyyy-MM-dd HH:mm:ss'}}</h2>

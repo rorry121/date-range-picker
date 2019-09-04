@@ -1,0 +1,17 @@
+<section class="hz-time-picker-select">
+  <article class="hz-time-picker-hour" #hourScrollWrap>
+    <ul>
+      <li (click)="changeTime(i, 0)" [ngClass]="{'active': activeHour === i}" *ngFor="let item of hour; let i = index">{{i | number: '2.0-0'}}</li>
+    </ul>
+  </article>
+  <article class="hz-time-picker-minute" #minuteScrollWrap>
+    <ul>
+      <li (click)="changeTime(i, 1)" [ngClass]="{'active': activeMinute === i}" *ngFor="let item of minute; let i = index">{{i | number: '2.0-0'}}</li>
+    </ul>
+  </article>
+  <article class="hz-time-picker-second" #secondScrollWrap>
+    <ul>
+      <li (click)="changeTime(i, 2)" [ngClass]="{'active': activeSecond === i}" *ngFor="let item of second; let i = index">{{i | number: '2.0-0'}}</li>
+    </ul>
+  </article>
+</section>

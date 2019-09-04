@@ -4,13 +4,13 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef, EventEmitter,
-  forwardRef,
-  Input,
-  OnInit, Output,
-  ViewChild
+  forwardRef, Input,
+  OnInit, Output, TemplateRef,
+  ViewChild, ViewContainerRef
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CompatibleDate } from '../hz-date-picker.component';
+import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -24,68 +24,102 @@ import { CompatibleDate } from '../hz-date-picker.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HzTimePickerComponent implements OnInit, AfterViewInit, ControlValueAccessor {
-  time: Date;
-  hour = new Array(24);
-  minute = new Array(60);
-  second = new Array(60);
-  activeHour: number;
-  activeMinute: number;
-  activeSecond: number;
+  time: string| number | Date;
+  modalDate: Date;
+  format: string;
+  timePickerOverlayRef: OverlayRef;
+  inited = false;
 
-  @Output() timeClick = new EventEmitter<Date>();
 
-  @ViewChild('hourScrollWrap', {static: false}) hourScrollWrap: ElementRef;
-  @ViewChild('minuteScrollWrap', {static: false}) minuteScrollWrap: ElementRef;
-  @ViewChild('secondScrollWrap', {static: false}) secondScrollWrap: ElementRef;
+  @Input() onlyTime = false;
+  @Input() type: 'string' | 'date' = 'date';
+  @Input() placeholder = '请选择时间';
+  @ViewChild('timePickerTemplate', {static: false}) timePickerTemplate: TemplateRef<any>;
 
   constructor(
-    private cdf: ChangeDetectorRef
+    private cdf: ChangeDetectorRef,
+    private overlay: Overlay,
+    private vc: ViewContainerRef
   ) {
   }
 
   ngOnInit() {
+
   }
 
   ngAfterViewInit(): void {
+    this.format = this.onlyTime ? 'HH:mm:ss' : 'yyyy/MM/dd HH:mm:ss';
+  }
+
+  onTimeClick(date: Date) {
 
   }
 
-  changeTime(i: number, type: number) {
-    if (type === 0) {
-      this.changeHour(i);
-    } else if (type === 1) {
-      this.changeMinute(i);
-    } else if (type === 2) {
-      this.changeSecond(i);
+  confirm() {
+    if (this.time && this.time instanceof  Date) {
+      this.writeValue(this.modalDate);
+    } else if (!this.time) {
+      this.writeValue(this.modalDate);
+    } else {
+      if (this.type === 'string') {
+        if (this.onlyTime) {
+          const str = this.getOnlyTime();
+          this.writeValue(str);
+        } else {
+          this.writeValue(this.modalDate.toLocaleString());
+        }
+      }
     }
-    const date = this.getSelectTime();
-    this.writeValue(date);
-    this.timeClick.emit(date);
+    this.closeModal();
   }
 
-  changeHour(i: number) {
-    this.activeHour = i;
-    this.scrollToTop(i, this.hourScrollWrap);
+  getOnlyTime() {
+    let hour: string | number = this.modalDate.getHours();
+    if (hour < 10) {
+      hour = '0' + hour;
+    }
+    let minute: string | number  = this.modalDate.getMinutes();
+    if (minute < 10) {
+      minute = '0' + minute;
+    }
+    let second: string | number  = this.modalDate.getSeconds();
+    if (second < 10) {
+      second = '0' + second;
+    }
+    const str = hour + ':' + minute + ':' + second;
+    return str;
   }
 
-  changeMinute(i: number) {
-    this.activeMinute = i;
-    this.scrollToTop(i, this.minuteScrollWrap);
+  closeModal() {
+    if (this.timePickerOverlayRef && this.timePickerOverlayRef.hasAttached()) {
+      this.timePickerOverlayRef.detach();
+    }
   }
 
-  changeSecond(i: number) {
-    this.activeSecond = i;
-    this.scrollToTop(i, this.secondScrollWrap);
+  showOverlay() {
+    const StartAlignBottomWithTop: ConnectedPosition[] = [
+      {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'top'},
+      {originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'bottom'},
+      {originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'top'},
+      {originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'bottom'},
+    ];
+    this.timePickerOverlayRef = this.show(event.currentTarget as HTMLElement, this.timePickerTemplate, this.vc, StartAlignBottomWithTop);
   }
 
-  scrollToTop(i: number, elementRef: ElementRef) {
-    elementRef.nativeElement.scrollTop = i * 24;
-  }
-
-  getSelectTime() {
-    const day = this.time.getFullYear() + '/' + (this.time.getMonth() + 1) + '/' + this.time.getDate();
-    console.log(day);
-    return new Date(new Date(day).getTime() + this.activeHour * 60 * 60 * 1000 + this.activeMinute * 60 * 1000 + this.activeSecond * 1000);
+  // 根据点击元素，展示 modal
+  show(origin: ElementRef | HTMLElement, template: TemplateRef<any>, viewContainer: ViewContainerRef, connectionPosition: ConnectedPosition[], context?: any): OverlayRef {
+    const positionStrategy = this.overlay.position().flexibleConnectedTo(origin).withPositions(connectionPosition);
+    const overlayRef = this.overlay.create({
+      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+      backdropClass: 'cdk-overlay-transparent-backdrop',
+      positionStrategy,
+    });
+    if (overlayRef.hasAttached()) {
+      overlayRef.detach();
+    } else {
+      overlayRef.attach(new TemplatePortal(template, viewContainer, {$implicit: context}));
+    }
+    return overlayRef;
   }
 
   // ------------------------------------------------------------------------
@@ -106,16 +140,19 @@ export class HzTimePickerComponent implements OnInit, AfterViewInit, ControlValu
     if (value) {
       console.log('writeValue:', value);
       this.setValue(value);
-      if (!this.activeHour) {
-        this.changeHour(this.time.getHours());
+      if (!this.inited) {
+        if (this.time && this.time instanceof  Date) {
+          this.modalDate = this.time;
+        } else if (!this.time) {
+          this.modalDate = new Date();
+        } else {
+          if (this.type === 'string') {
+            this.modalDate = this.onlyTime ? new Date('2000/1/1 ' + this.time) : new Date(this.time);
+          }
+        }
+        this.inited = true;
       }
-      if (!this.activeMinute) {
-        this.changeMinute(this.time.getMinutes());
-
-      }
-      if (!this.activeSecond) {
-        this.changeSecond(this.time.getSeconds());
-      }
+      console.log('this.modalDate :', this.modalDate);
       this.cdf.detectChanges();
     }
   }

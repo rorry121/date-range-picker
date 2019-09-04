@@ -60,7 +60,7 @@
   box-shadow: @hz-date-picker-box-shadow;
   border-radius: 8px;
   padding: 1px;
-  .hz-date-input-wrap {
+  .hz-date-input-wrap{
     font-size: 12px;
     height: 36px;
     line-height: 24px;
@@ -316,7 +316,7 @@
     }
   }
 }
-.hz-range-date-actions, .hz-date-actions {
+.hz-range-date-actions, .hz-date-actions, .hz-time-picker-actions {
   text-align: right;
   font-weight: bold;
   padding-right: 24px;
@@ -348,7 +348,7 @@
   padding-right: 0;
 }
 
-.hz-time-picker-wrap {
+.hz-time-picker-wrap, .hz-time-picker-content {
   font-size: 12px;
   color: @hz-date-picker-cell-color;
   .hz-time-picker-day {
@@ -362,7 +362,7 @@
 
   }
 }
-.hz-time-picker {
+.hz-time-picker-select {
   height: 216px;
   font-size: 12px;
   display: flex;
@@ -403,3 +403,50 @@
 
 }
 
+.hz-time-picker {
+  height: 36px;
+  background-color: darkorchid;
+}
+
+.hz-time-picker-overlay {
+  background-color: #ffffff;
+  box-shadow: @hz-date-picker-box-shadow;
+  border-radius: 4px;
+  padding: 1px;
+  font-size: 12px;
+  .hz-time-picker-title{
+    height: 36px;
+    line-height: 24px;
+    border-bottom: @hz-date-picker-bottom-line;
+    display: flex;
+    padding: 6px 0;
+    box-sizing: border-box!important;
+    color: @hz-date-picker-thead-color;
+    .time-picker-input {
+      flex: 1;
+      height: 24px;
+      line-height: 24px;
+      padding: 0 16px;
+      input {
+        background-color: transparent;
+        color: @hz-date-picker-cell-color;
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        padding: 4px 0;
+        border: 0;
+        outline: none;
+        height: 16px;
+        line-height: 16px;
+        box-shadow: none;
+        font-size: 12px;
+      }
+    }
+  }
+  .hz-time-picker-content {
+    border-bottom: @hz-date-picker-bottom-line;
+  }
+  .hz-time-picker-actions {
+    padding-right: 8px;
+  }
+}

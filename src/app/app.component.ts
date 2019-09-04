@@ -9,5 +9,8 @@ export class AppComponent {
   title = 'hz-date-picker';
   date: Date;
   dateArr: Date[];
-  time = new Date();
+  time = '00:00:00';
+  show() {
+    console.log(this.dateArr);
+  }
 }

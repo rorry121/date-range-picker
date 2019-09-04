@@ -78,7 +78,7 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
     this.singleModalType = 0;
     this.dateValue = this.isRange ? [] : null;
     if (!this.format) {
-      this.format = this.showTime ? 'yyyy-MM-dd: HH:mm:ss' : 'yyyy-MM-dd';
+      this.format = this.showTime ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd';
     }
     if (!this.placeholder ) {
       this.placeholder = this.isRange ? ['开始日期', '结束日期'] : '请选择日期';
@@ -143,7 +143,7 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
   }
 
   onRangeConfirm(rangeDate: Date[]) {
-    this.dateValue = rangeDate;
+    this.writeValue(rangeDate);
     if (this.rangeDateOverlayRef && this.rangeDateOverlayRef.hasAttached()) {
       this.rangeDateOverlayRef.detach();
     }
