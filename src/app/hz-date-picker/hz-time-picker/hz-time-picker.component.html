@@ -1,7 +1,17 @@
 <section class="hz-time-picker" (click)="showOverlay()">
-  <article class="hz-time-picker-outlet">
+  <article class="hz-time-picker-outlet" *ngIf="!isRange">
     <span *ngIf="type === 'date'">{{(time | date: format) || placeholder}}</span>
-    <span *ngIf="type === 'string'">{{time}}</span>
+    <span *ngIf="type === 'string'">{{time || '请选择时间'}}</span>
+  </article>
+  <article class="hz-range-time-picker-outlet" *ngIf="isRange && time">
+    <span *ngIf="type === 'date'" class="hz-range-time">{{(time[0] | date: format) || placeholder[0]}}</span>
+    <span *ngIf="type === 'string'" class="hz-range-time">{{time[0] || placeholder[0]}}</span>
+    <!--      <input type="text" placeholder="{{placeholder[0]}}" [(ngModel)]="dateValue[0]" readonly>-->
+    <span class="range-to"> ～ </span>
+    <span *ngIf="type === 'date'" class="hz-range-time">{{(time[1] | date: format) || placeholder[1]}}</span>
+    <span *ngIf="type === 'string'" class="hz-range-time">{{time[1] || placeholder[1]}}</span>
+    <!--      <input type="text" placeholder="{{placeholder[1]}}" [(ngModel)]="dateValue[1]" readonly>-->
+    <i class="icon-date-picker"></i>
   </article>
 </section>
 
@@ -22,3 +32,29 @@
     </article>
   </section>
 </ng-template>
+
+<ng-template #timeRangePickerTemplate>
+  <section class="hz-range-time-picker">
+    <article class="hz-range-time-input-wrap">
+      <div class="time-picker-input">
+        <span>{{(rangeDate[0] | date: format) || placeholder[0]}}</span>
+        <!--      <input type="text" readonly placeholder="开始时间" [(ngModel)]="rangeDate[0]">-->
+      </div>
+      ~
+      <div class="time-picker-input">
+        <span>{{(rangeDate[1] | date: format) || placeholder[1]}}</span>
+        <!--      <input type="text" readonly placeholder="结束时间" [(ngModel)]="rangeDate[1]">-->
+      </div>
+    </article>
+    <article class="hz-range-time-wrap">
+      <hz-time-picker-select [(ngModel)]="rangeDate[0]"></hz-time-picker-select>
+      <hz-time-picker-select [(ngModel)]="rangeDate[1]"></hz-time-picker-select>
+    </article>
+    <article class="hz-range-time-actions">
+      <button (click)="rangeConfirmClick()">确定</button>
+      <button (click)="closeModal()">取消</button>
+    </article>
+  </section>
+</ng-template>
+
+

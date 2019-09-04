@@ -10,8 +10,8 @@
 
 
 
-.hz-date-picker {
-  .hz-single-date-picker-outlet, .hz-range-date-picker-outlet {
+.hz-date-picker, .hz-time-picker {
+  .hz-single-date-picker-outlet, .hz-range-date-picker-outlet, .hz-range-time-picker-outlet {
     position: relative;
     padding: 6px 24px 6px 0;
     height: 32px;
@@ -21,7 +21,7 @@
     border-bottom: 1px solid @hz-date-picker-blue-of-50;
     color: @hz-date-picker-cell-color;
     font-size: 12px;
-    input, .hz-range-date {
+    input, .hz-range-date, .hz-range-time {
       flex: 1;
       color: @hz-date-picker-cell-color;
       position: relative;
@@ -99,7 +99,7 @@
   box-shadow: @hz-date-picker-box-shadow;
   border-radius: 8px;
   padding: 1px;
-  .hz-range-date-input-wrap {
+  .hz-range-date-input-wrap, .hz-range-time-input-wrap {
     height: 36px;
     font-size: 12px;
     line-height: 24px;
@@ -108,7 +108,7 @@
     padding: 6px 0;
     box-sizing: border-box!important;
     color: @hz-date-picker-thead-color;
-    .date-picker-input {
+    .date-picker-input, .time-picker-input {
       flex: 1;
       height: 24px;
       line-height: 24px;
@@ -129,7 +129,7 @@
       }
     }
   }
-  .hz-range-date-wrap {
+  .hz-range-date-wrap, .hz-range-time-wrap {
     border-bottom: @hz-date-picker-bottom-line;
     .hz-time-picker-wrap {
       display: inline-block;
@@ -316,7 +316,7 @@
     }
   }
 }
-.hz-range-date-actions, .hz-date-actions, .hz-time-picker-actions {
+.hz-range-date-actions, .hz-date-actions, .hz-time-picker-actions, .hz-range-time-actions {
   text-align: right;
   font-weight: bold;
   padding-right: 24px;
@@ -405,7 +405,6 @@
 
 .hz-time-picker {
   height: 36px;
-  background-color: darkorchid;
 }
 
 .hz-time-picker-overlay {
@@ -448,5 +447,40 @@
   }
   .hz-time-picker-actions {
     padding-right: 8px;
+  }
+}
+.hz-range-time-picker {
+  background-color: #ffffff;
+  box-shadow: @hz-date-picker-box-shadow;
+  border-radius: 8px;
+}
+.hz-range-time-input-wrap {
+  height: 36px;
+  font-size: 12px;
+  line-height: 24px;
+  border-bottom: @hz-date-picker-bottom-line;
+  display: flex;
+  padding: 6px 0;
+  box-sizing: border-box!important;
+  color: @hz-date-picker-thead-color;
+  .date-picker-input, .time-picker-input {
+    flex: 1;
+    height: 24px;
+    line-height: 24px;
+    padding: 0 16px;
+    input {
+      background-color: transparent;
+      color: @hz-date-picker-cell-color;
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      padding: 4px 0;
+      border: 0;
+      outline: none;
+      height: 16px;
+      line-height: 16px;
+      box-shadow: none;
+      font-size: 12px;
+    }
   }
 }

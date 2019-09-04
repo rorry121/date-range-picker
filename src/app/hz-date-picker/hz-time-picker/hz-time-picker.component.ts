@@ -24,17 +24,21 @@ import { TemplatePortal } from '@angular/cdk/portal';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HzTimePickerComponent implements OnInit, AfterViewInit, ControlValueAccessor {
-  time: string| number | Date;
+  time: string| number | Date | Date[];
   modalDate: Date;
   format: string;
   timePickerOverlayRef: OverlayRef;
-  inited = false;
+  timeRangePickerOverlayRef: OverlayRef;
+  initied = false;
 
 
   @Input() onlyTime = false;
+  @Input() isRange = false;
+  @Input() rangeDate: Date[];
   @Input() type: 'string' | 'date' = 'date';
-  @Input() placeholder = '请选择时间';
+  @Input() placeholder: string | string[];
   @ViewChild('timePickerTemplate', {static: false}) timePickerTemplate: TemplateRef<any>;
+  @ViewChild('timeRangePickerTemplate', {static: false}) timeRangePickerTemplate: TemplateRef<any>;
 
   constructor(
     private cdf: ChangeDetectorRef,
@@ -44,10 +48,14 @@ export class HzTimePickerComponent implements OnInit, AfterViewInit, ControlValu
   }
 
   ngOnInit() {
-
+    console.log('ngOnInit');
+    if (!this.placeholder ) {
+      this.placeholder = this.isRange ? ['开始时段', '结束时段'] : '请选择日期';
+    }
   }
 
   ngAfterViewInit(): void {
+    console.log('ngAfterViewInit');
     this.format = this.onlyTime ? 'HH:mm:ss' : 'yyyy/MM/dd HH:mm:ss';
   }
 
@@ -63,7 +71,7 @@ export class HzTimePickerComponent implements OnInit, AfterViewInit, ControlValu
     } else {
       if (this.type === 'string') {
         if (this.onlyTime) {
-          const str = this.getOnlyTime();
+          const str = this.getOnlyTime(this.modalDate);
           this.writeValue(str);
         } else {
           this.writeValue(this.modalDate.toLocaleString());
@@ -73,16 +81,16 @@ export class HzTimePickerComponent implements OnInit, AfterViewInit, ControlValu
     this.closeModal();
   }
 
-  getOnlyTime() {
-    let hour: string | number = this.modalDate.getHours();
+  getOnlyTime(date: Date) {
+    let hour: string | number = date.getHours();
     if (hour < 10) {
       hour = '0' + hour;
     }
-    let minute: string | number  = this.modalDate.getMinutes();
+    let minute: string | number  = date.getMinutes();
     if (minute < 10) {
       minute = '0' + minute;
     }
-    let second: string | number  = this.modalDate.getSeconds();
+    let second: string | number  = date.getSeconds();
     if (second < 10) {
       second = '0' + second;
     }
@@ -90,9 +98,29 @@ export class HzTimePickerComponent implements OnInit, AfterViewInit, ControlValu
     return str;
   }
 
+  rangeConfirmClick() {
+    console.log(this.rangeDate);
+    const strArr = [];
+    if (this.rangeDate[0].getTime() < this.rangeDate[1].getTime()) {
+      strArr[0] = this.getOnlyTime(this.rangeDate[0]);
+      strArr[1] = this.getOnlyTime(this.rangeDate[1]);
+    } else {
+      strArr[0] = this.getOnlyTime(this.rangeDate[1]);
+      strArr[1] = this.getOnlyTime(this.rangeDate[0]);
+    }
+    this.writeValue(strArr);
+    this.closeModal();
+  }
+
   closeModal() {
-    if (this.timePickerOverlayRef && this.timePickerOverlayRef.hasAttached()) {
-      this.timePickerOverlayRef.detach();
+    if (!this.isRange) {
+      if (this.timePickerOverlayRef && this.timePickerOverlayRef.hasAttached()) {
+        this.timePickerOverlayRef.detach();
+      }
+    } else {
+      if (this.timeRangePickerOverlayRef && this.timeRangePickerOverlayRef.hasAttached()) {
+        this.timeRangePickerOverlayRef.detach();
+      }
     }
   }
 
@@ -103,7 +131,19 @@ export class HzTimePickerComponent implements OnInit, AfterViewInit, ControlValu
       {originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'top'},
       {originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'bottom'},
     ];
-    this.timePickerOverlayRef = this.show(event.currentTarget as HTMLElement, this.timePickerTemplate, this.vc, StartAlignBottomWithTop);
+    if (!this.isRange) {
+      if (this.timePickerOverlayRef && this.timePickerOverlayRef.hasAttached()) {
+        this.timePickerOverlayRef.detach();
+      } else {
+        this.timePickerOverlayRef = this.show(event.currentTarget as HTMLElement, this.timePickerTemplate, this.vc, StartAlignBottomWithTop);
+      }
+    } else {
+      if (this.timeRangePickerOverlayRef && this.timeRangePickerOverlayRef.hasAttached()) {
+        this.timeRangePickerOverlayRef.detach();
+      } else {
+        this.timeRangePickerOverlayRef = this.show(event.currentTarget as HTMLElement, this.timeRangePickerTemplate, this.vc, StartAlignBottomWithTop);
+      }
+    }
   }
 
   // 根据点击元素，展示 modal
@@ -140,19 +180,27 @@ export class HzTimePickerComponent implements OnInit, AfterViewInit, ControlValu
     if (value) {
       console.log('writeValue:', value);
       this.setValue(value);
-      if (!this.inited) {
-        if (this.time && this.time instanceof  Date) {
-          this.modalDate = this.time;
-        } else if (!this.time) {
-          this.modalDate = new Date();
+      if (!this.initied) {
+        if (!this.isRange) {
+          if (this.time && this.time instanceof  Date) {
+            this.modalDate = this.time;
+          } else if (!this.time) {
+            this.modalDate = new Date();
+          } else {
+            if (this.type === 'string') {
+              this.modalDate = this.onlyTime ? new Date('2000/1/1 ' + this.time) : new Date(this.time as Date);
+            }
+          }
         } else {
           if (this.type === 'string') {
-            this.modalDate = this.onlyTime ? new Date('2000/1/1 ' + this.time) : new Date(this.time);
+            if (this.time) {
+              this.rangeDate = this.onlyTime ? [new Date('2000/1/1 ' + this.time[0]), new Date('2000/1/1 ' + this.time[1])] : [new Date(this.time[0]), new Date(this.time[1])];
+            }
           }
         }
-        this.inited = true;
+
+        this.initied = true;
       }
-      console.log('this.modalDate :', this.modalDate);
       this.cdf.detectChanges();
     }
   }

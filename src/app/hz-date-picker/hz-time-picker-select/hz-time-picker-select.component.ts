@@ -4,7 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef, EventEmitter,
-  forwardRef,
+  forwardRef, HostBinding,
   OnInit, Output,
   ViewChild
 } from '@angular/core';
@@ -35,6 +35,8 @@ export class HzTimePickerSelectComponent implements OnInit, AfterViewInit, Contr
   @ViewChild('hourScrollWrap', {static: false}) hourScrollWrap: ElementRef;
   @ViewChild('minuteScrollWrap', {static: false}) minuteScrollWrap: ElementRef;
   @ViewChild('secondScrollWrap', {static: false}) secondScrollWrap: ElementRef;
+
+  @HostBinding('style.display') display = 'inline-block';
 
   constructor(
     private cdf: ChangeDetectorRef
