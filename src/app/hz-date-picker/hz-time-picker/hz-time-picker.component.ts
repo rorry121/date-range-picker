@@ -52,6 +52,12 @@ export class HzTimePickerComponent implements OnInit, AfterViewInit, ControlValu
     if (!this.placeholder ) {
       this.placeholder = this.isRange ? ['开始时段', '结束时段'] : '请选择日期';
     }
+    if (this.onlyTime && this.type === 'string') {
+      if (!this.time) {
+        this.time = [];
+      }
+      this.rangeDate = [new Date('2000/1/1 00:00:00'), new Date('2000/1/1 00:00:00')];
+    }
   }
 
   ngAfterViewInit(): void {
@@ -180,27 +186,6 @@ export class HzTimePickerComponent implements OnInit, AfterViewInit, ControlValu
     if (value) {
       console.log('writeValue:', value);
       this.setValue(value);
-      if (!this.initied) {
-        if (!this.isRange) {
-          if (this.time && this.time instanceof  Date) {
-            this.modalDate = this.time;
-          } else if (!this.time) {
-            this.modalDate = new Date();
-          } else {
-            if (this.type === 'string') {
-              this.modalDate = this.onlyTime ? new Date('2000/1/1 ' + this.time) : new Date(this.time as Date);
-            }
-          }
-        } else {
-          if (this.type === 'string') {
-            if (this.time) {
-              this.rangeDate = this.onlyTime ? [new Date('2000/1/1 ' + this.time[0]), new Date('2000/1/1 ' + this.time[1])] : [new Date(this.time[0]), new Date(this.time[1])];
-            }
-          }
-        }
-
-        this.initied = true;
-      }
       this.cdf.detectChanges();
     }
   }
