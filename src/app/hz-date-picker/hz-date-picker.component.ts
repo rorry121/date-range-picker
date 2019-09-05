@@ -39,6 +39,7 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
   singleDateOverlayRef: OverlayRef;
   rangeDateOverlayRef: OverlayRef;
   cell: DateDayCell;
+  @ViewChild('HzDateMonthComponent', {static: false}) hzDateMonthComponent: HzDateMonthComponent;
   @ViewChild('singleDatePickTemplate', {static: false}) singleDatePickTemplate: TemplateRef<any>;
   @ViewChild('rangeDatePickTemplate', {static: false}) rangeDatePickTemplate: TemplateRef<any>;
   @ViewChildren(HzDateCellComponent) listOfDateCellComponent: QueryList<HzDateCellComponent>;
@@ -62,16 +63,14 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
   }
 
   ngAfterViewInit(): void {
-    // console.log(this.singleDateMonth);
-    // const cellClick$ = merge(this.singleDateMonthComponent.listOfDateCellComponent.changes, ...this.singleDateMonthComponent.listOfDateCellComponent.map(e => e.click$));
-    // cellClick$.subscribe((cell: DateDayCell) => {
-    //   console.log(cell);
-    //   this.dateValue = cell.value;
-    // });
   }
 
-  changeDate() {
-    this.writeValue(new Date());
+  changeChildYear(bool: boolean) {
+    this.hzDateMonthComponent.changeYear(bool);
+  }
+
+  changeChildMonth(bool: boolean) {
+    this.hzDateMonthComponent.changeMonth(bool);
   }
 
   initValue() {
@@ -97,6 +96,7 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
           {originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'bottom'},
         ];
         this.singleDateOverlayRef = this.show(event.currentTarget as HTMLElement, this.singleDatePickTemplate, this.vc, StartAlignBottomWithTop);
+        this.cdf.detectChanges();
       }
     } else {
       if (this.rangeDateOverlayRef && this.rangeDateOverlayRef.hasAttached()) {
@@ -116,6 +116,15 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
 
   onCellClick(event: DateDayCell) {
     this.singleModalDate = event.value;
+    this.hzDateMonthComponent.dateValue = event.value;
+    if (event.isLastMonth) {
+      this.hzDateMonthComponent.changeMonth(false);
+      this.hzDateMonthComponent.makeMonthCells();
+    } else if (event.isNextMonth) {
+      this.hzDateMonthComponent.changeMonth(true);
+      this.hzDateMonthComponent.makeMonthCells();
+    }
+    this.cdf.detectChanges();
   }
 
 

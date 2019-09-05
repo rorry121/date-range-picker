@@ -1,5 +1,5 @@
 import {
-  AfterViewInit,
+  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   EventEmitter,
   HostBinding,
@@ -50,10 +50,12 @@ export class HzDateMonthComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (!this.isRange) {
-      this.initDate();
-      this.makeMonthCells();
-    }
+    this.initDate();
+    this.makeMonthCells();
+    // if (!this.isRange) {
+    //   this.initDate();
+    //   this.makeMonthCells();
+    // }
   }
 
   ngAfterViewInit(): void {
@@ -112,29 +114,23 @@ export class HzDateMonthComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   makeMonthCells() {
-    // value: Date;
-    // title: string;
-    // isSelected?: boolean;
-    // isToday?: boolean;
-    // isDisabled?: boolean;
-    // isSelectedStartDate?: boolean;
-    // isSelectedEndDate?: boolean;
-    // isInRange?: boolean;
     this.monthCells = [];
+    this.rangeStartCell = null;
+    this.rangeEndCell = null;
     const firstDayOfMonth = new Date(`${this.curYear}/${this.curMonth}`);
     const weekStart = this.getWeekIndex(firstDayOfMonth);
     for (let i = 1; i < SHOW_DAY_NUM + 1; i++) {
       const distance = i - weekStart;
       const value = new Date(firstDayOfMonth.getTime() + ONE_DAY_MILLISECOND * distance);
-      const cell = {
+      const cell: DateDayCell = {
         value,
         title: value.toLocaleDateString(),
         isToday: this.isSameDay(value, new Date()),
         isLastMonth: distance < 0,
         isNextMonth: distance > 0 && value.getMonth() !== this.curMonth - 1,
         isSelected: this.dateValue && this.isSameDay(value, this.dateValue),
-        isSelectedStartDate: this.isRange && this.rangeStart && this.rangeDate[0] && this.isSameDay(this.rangeDate[0], value),
-        isSelectedEndDate: this.isRange && this.rangeEnd && this.rangeDate[1] && this.isSameDay(this.rangeDate[1], value),
+        isSelectedStartDate: this.isRange  && this.rangeDate[0] && this.isSameDay(this.rangeDate[0], value),
+        isSelectedEndDate: this.isRange && this.rangeDate[1] && this.isSameDay(this.rangeDate[1], value),
       };
       if (cell.isSelected) {
         this.lastSelectedCell = cell;
@@ -144,6 +140,13 @@ export class HzDateMonthComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       if (cell.isSelectedEndDate) {
         this.rangeEndCell = cell;
+      }
+      if (this.isRange && this.rangeDate[0] && this.rangeDate[1]) {
+        if (cell.value.getTime() < this.rangeDate[1].getTime() && cell.value.getTime() > this.rangeDate[0].getTime()) {
+          cell.isInRange = true;
+        } else {
+          cell.isInRange = false;
+        }
       }
       this.monthCells.push(cell);
     }
@@ -163,7 +166,6 @@ export class HzDateMonthComponent implements OnInit, AfterViewInit, OnDestroy {
         this.curYear--;
       }
     }
-    this.makeMonthCells();
   }
 
   changeMonth(bool: boolean) {
@@ -182,11 +184,10 @@ export class HzDateMonthComponent implements OnInit, AfterViewInit, OnDestroy {
         this.curMonth--;
       }
     }
-    this.makeMonthCells();
   }
 
   isSameDay(date1: Date, date2: Date) {
-    return (date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate());
+    return date1.toLocaleDateString() === date2.toLocaleDateString();
   }
 
 }

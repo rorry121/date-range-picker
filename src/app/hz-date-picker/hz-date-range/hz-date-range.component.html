@@ -1,23 +1,43 @@
 <section class="hz-range-date-picker">
-  <article class="hz-range-date-input-wrap">
-    <div class="date-picker-input">
+  <article class="hz-date-input-wrap">
+    <div class="date-input">
       <span>{{(rangeDate[0] | date: format) || placeholder[0]}}</span>
-<!--      <input type="text" readonly placeholder="开始时间" [(ngModel)]="rangeDate[0]">-->
     </div>
      ~
-    <div class="date-picker-input">
+    <div class="date-input">
       <span>{{(rangeDate[1] | date: format) || placeholder[1]}}</span>
-<!--      <input type="text" readonly placeholder="结束时间" [(ngModel)]="rangeDate[1]">-->
     </div>
   </article>
   <article class="hz-range-date-wrap" [hidden]="!modalType">
+    <article class="hz-range-date-nav">
+      <article class="hz-date-month-nav">
+        <i class="pre-year" (click)="changeChildYear(false, true)"></i>
+        <i class="pre-month" (click)="changeChildMonth(false, true)"></i>
+        <span class="cur-year-month">
+      <a class="select-year"><span>{{LDMComponent.curYear}}</span>年</a>
+      <a class="select-month"><span>{{LDMComponent.curMonth}}</span>月</a>
+    </span>
+        <i class="next-year" *ngIf="(RDMComponent.curYear * 12 + RDMComponent.curMonth - LDMComponent.curYear * 12 - LDMComponent.curMonth) !== 1" (click)="changeChildYear(true, true)"></i>
+        <i class="next-month" *ngIf="(RDMComponent.curYear * 12 + RDMComponent.curMonth - LDMComponent.curYear * 12 - LDMComponent.curMonth) !== 1" (click)="changeChildMonth(true, true)"></i>
+      </article>
+      <article class="hz-date-month-nav">
+        <i class="pre-year" *ngIf="(RDMComponent.curYear * 12 + RDMComponent.curMonth - LDMComponent.curYear * 12 - LDMComponent.curMonth) !== 1" (click)="changeChildYear(false, false)"></i>
+        <i class="pre-month" *ngIf="(RDMComponent.curYear * 12 + RDMComponent.curMonth - LDMComponent.curYear * 12 - LDMComponent.curMonth) !== 1" (click)="changeChildMonth(false, false)"></i>
+        <span class="cur-year-month">
+      <a class="select-year"><span>{{RDMComponent.curYear}}</span>年</a>
+      <a class="select-month"><span>{{RDMComponent.curMonth}}</span>月</a>
+    </span>
+        <i class="next-year" (click)="changeChildYear(true, false)"></i>
+        <i class="next-month" (click)="changeChildMonth(true, false)"></i>
+      </article>
+    </article>
     <app-hz-date-month #LDMComponent [isRange]="true" [rangeStart]="true" [rangeDate]="rangeDate"></app-hz-date-month>
     <app-hz-date-month #RDMComponent [isRange]="true" [rangeEnd]="true" [rangeDate]="rangeDate"></app-hz-date-month>
   </article>
   <article class="hz-range-date-wrap" [hidden]="modalType">
     <ng-container *ngTemplateOutlet="rangeTimePickerTemplate"></ng-container>
   </article>
-  <article class="hz-range-date-actions">
+  <article class="hz-date-actions">
     <button (click)="changModalType()" [disabled]="!rangeSelected">{{modalType ? '选择时间': '选择日期'}}</button>
     <button [disabled]="!rangeSelected" (click)="rangeConfirmClick()">确定</button>
     <button (click)="rangeCancelClick()">取消</button>

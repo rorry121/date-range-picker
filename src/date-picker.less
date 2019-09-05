@@ -8,147 +8,14 @@
 @hz-date-picker-cell-selected-bg: #2b79ff; // // 蓝色，白色统一
 @hz-date-picker-bg: #ffffff;
 
-
-
-.hz-date-picker, .hz-time-picker {
-  .hz-single-date-picker-outlet, .hz-range-date-picker-outlet, .hz-range-time-picker-outlet {
-    position: relative;
-    padding: 6px 24px 6px 0;
-    height: 32px;
-    width: 100%;
-    box-sizing: border-box!important;
-    display: flex;
-    border-bottom: 1px solid @hz-date-picker-blue-of-50;
-    color: @hz-date-picker-cell-color;
-    font-size: 12px;
-    input, .hz-range-date, .hz-range-time {
-      flex: 1;
-      color: @hz-date-picker-cell-color;
-      position: relative;
-      display: inline-block;
-      width: 100%;
-      padding: 2px 0;
-      border: 0;
-      outline: none;
-      height: 16px;
-      line-height: 16px;
-      box-shadow: none;
-      font-size: 12px;
-      background-color: transparent;
-    }
-    .range-to {
-      margin: 0 4px;
-    }
-    .icon-date-picker {
-      cursor: pointer;
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      background: url('./assets/icon-date-picker-white.svg') center center no-repeat;
-      position: absolute;
-      right: 0;
-      top: 8px
-    }
-  }
-  .hz-range-date-picker-outlet input {
-    text-align: center;
-  }
-}
-
-.hz-date-picker-single-container {
-  background: @hz-date-picker-bg;
-  box-shadow: @hz-date-picker-box-shadow;
-  border-radius: 8px;
-  padding: 1px;
-  .hz-date-input-wrap{
-    font-size: 12px;
-    height: 36px;
-    line-height: 24px;
-    border-bottom: @hz-date-picker-bottom-line;
-    display: flex;
-    padding: 6px 0;
-    box-sizing: border-box!important;
-    color: @hz-date-picker-thead-color;
-    .date-picker-input {
-      flex: 1;
-      height: 24px;
-      line-height: 24px;
-      padding: 0 16px;
-      input {
-        background-color: transparent;
-        color: @hz-date-picker-cell-color;
-        position: relative;
-        display: inline-block;
-        width: 100%;
-        padding: 4px 0;
-        border: 0;
-        outline: none;
-        height: 16px;
-        line-height: 16px;
-        box-shadow: none;
-        font-size: 12px;
-      }
-    }
-  }
-  .hz-date-wrap {
-    border-bottom: @hz-date-picker-bottom-line;
-  }
-}
-.hz-range-date-picker {
-  background: @hz-date-picker-bg;
-  box-shadow: @hz-date-picker-box-shadow;
-  border-radius: 8px;
-  padding: 1px;
-  .hz-range-date-input-wrap, .hz-range-time-input-wrap {
-    height: 36px;
-    font-size: 12px;
-    line-height: 24px;
-    border-bottom: @hz-date-picker-bottom-line;
-    display: flex;
-    padding: 6px 0;
-    box-sizing: border-box!important;
-    color: @hz-date-picker-thead-color;
-    .date-picker-input, .time-picker-input {
-      flex: 1;
-      height: 24px;
-      line-height: 24px;
-      padding: 0 16px;
-      input {
-        background-color: transparent;
-        color: @hz-date-picker-cell-color;
-        position: relative;
-        display: inline-block;
-        width: 100%;
-        padding: 4px 0;
-        border: 0;
-        outline: none;
-        height: 16px;
-        line-height: 16px;
-        box-shadow: none;
-        font-size: 12px;
-      }
-    }
-  }
-  .hz-range-date-wrap, .hz-range-time-wrap {
-    border-bottom: @hz-date-picker-bottom-line;
-    .hz-time-picker-wrap {
-      display: inline-block;
-      border-right: @hz-date-picker-bottom-line;
-      &:last-child {
-        border-right: none;
-      }
-    }
-  }
-}
+// date-month 组件样式
 .hz-date-month {
   user-select: none;
   width: 248px;
-
   ul {
     list-style: none;
     margin: 0;
     padding: 0;
-
     li {
       display: inline-block;
       height: 24px;
@@ -157,73 +24,6 @@
       margin: 0px 4px;
       text-align: center;
       box-sizing: border-box !important;
-    }
-  }
-
-  .hz-date-month-nav {
-    text-align: center;
-    height: 36px;
-    line-height: 36px;
-    box-sizing: border-box !important;
-    font-size: 12px;
-    color: @hz-date-picker-cell-color;
-    padding: 0 8px;
-    border-bottom: @hz-date-picker-bottom-line;
-
-    a {
-      font-weight: bold;
-      user-select: none;
-      cursor: pointer;
-      padding: 0 2px;
-      display: inline-block;
-
-      &:hover {
-        color: @hz-date-picker-blue-text;
-      }
-
-      &.select-year span {
-        width: 35px;
-        display: inline-block;
-      }
-
-      &.select-month span {
-        width: 15px;
-        display: inline-block;
-      }
-    }
-
-    i {
-      display: inline-block;
-      cursor: pointer;
-      height: 16px;
-      width: 16px;
-      margin: 10px 4px;
-    }
-
-    .pre-year {
-      float: left;
-      background: url('./assets/icon-double-arrows-gray-left.svg') center center no-repeat;
-      background-size: 150%;
-    }
-
-    .pre-month {
-      float: left;
-      background: url('./assets/icon-single-arrows-gray-left.svg') center center no-repeat;
-      background-size: 150%;
-    }
-
-    .next-month {
-      float: right;
-      background: url('./assets/icon-single-arrows-gray-left.svg') center center no-repeat;
-      background-size: 150%;
-      transform: rotate(180deg);
-    }
-
-    .next-year {
-      float: right;
-      background: url('./assets/icon-double-arrows-gray-left.svg') center center no-repeat;
-      background-size: 150%;
-      transform: rotate(180deg);
     }
   }
 
@@ -244,6 +44,8 @@
       .hz-datepicker-cell {
         display: inline-block;
         margin: 2px 0;
+        width: 32px;
+        height: 24px;
         li {
           cursor: pointer;
           color: @hz-date-picker-cell-color;
@@ -255,113 +57,159 @@
         }
 
         &.hz-datepicker-last-month-cell, &.hz-datepicker-next-month-cell {
+          opacity: .3;
           &:hover {
             li {
               background: unset;
             }
           }
         }
-      }
 
-      .hz-datepicker-next-month-cell, .hz-datepicker-last-month-cell {
-        opacity: .3;
-      }
+        &.hz-datepicker-today-cell {
+          li {
+            font-weight: bold;
+            color: @hz-date-picker-blue-text;
+            border: 1px solid @hz-date-picker-blue-text;
+            border-radius: 2px;
+          }
 
-      .hz-datepicker-today-cell {
-        li {
-          font-weight: bold;
-          color: @hz-date-picker-blue-text;
-          border: 1px solid @hz-date-picker-blue-text;
-          border-radius: 2px;
+          &.hz-datepicker-last-month-cell, &.hz-datepicker-next-month-cell {
+            border: none;
+            &:hover {
+              li {
+                background: unset;
+                color: @hz-date-picker-cell-color;
+              }
+            }
+          }
         }
 
-        &.hz-datepicker-last-month-cell, &.hz-datepicker-next-month-cell {
-          border: none;
-          &:hover {
+        &.hz-datepicker-in-range-cell {
+          background: @hz-date-picker-cell-hover-bg;
+
+          &.hz-datepicker-last-month-cell, &.hz-datepicker-next-month-cell {
+            background-color: unset;
+          }
+
+          &:hover li {
+            background: unset;
+          }
+        }
+
+        &.hz-datepicker-range-start-cell, &.hz-datepicker-range-end-cell, &.hz-datepicker-selected-cell {
+          &:hover li, li {
+            background-color: @hz-date-picker-cell-selected-bg;
+            border-radius: 2px;
+            color: rgba(255, 255, 255);
+          }
+
+          &.hz-datepicker-last-month-cell, &.hz-datepicker-next-month-cell {
             li {
-              background: unset;
+              background-color: unset;
+              border-radius: unset;
               color: @hz-date-picker-cell-color;
             }
           }
         }
-      }
 
-      .hz-datepicker-in-range-cell {
-        background: @hz-date-picker-cell-hover-bg;
-
-        &.hz-datepicker-last-month-cell, &.hz-datepicker-next-month-cell {
-          background-color: unset;
-        }
-
-        &:hover li {
-          background: unset;
-        }
-      }
-
-      .hz-datepicker-range-start-cell, .hz-datepicker-range-end-cell, .hz-datepicker-selected-cell {
-        &:hover li, li {
-          background-color: @hz-date-picker-cell-selected-bg;
-          border-radius: 2px;
-          color: rgba(255, 255, 255);
-        }
-
-        &.hz-datepicker-last-month-cell, &.hz-datepicker-next-month-cell {
-          li {
-            background-color: unset;
-            border-radius: unset;
-            color: @hz-date-picker-cell-color;
-          }
-        }
       }
     }
   }
 }
-.hz-range-date-actions, .hz-date-actions, .hz-time-picker-actions, .hz-range-time-actions {
-  text-align: right;
-  font-weight: bold;
-  padding-right: 24px;
-  height: 48px;
-  line-height: 48px;
-  font-size: 14px;
-  button {
-    color: #2B79FF;
-    outline: none;
-    border: none;
-    margin-right: 16px;
-    cursor: pointer;
-    height: 32px;
-    line-height: 20px;
-    padding: 6px 16px;
-    border-radius: 4px;
-    &:disabled {
-      cursor: not-allowed;
-    }
-    &:last-child {
-      margin-right: 0;
-    }
-    &:hover {
-      background: rgba(24,43,77,0.05);
-    }
-  }
-}
-.hz-date-actions {
-  padding-right: 0;
-}
 
-.hz-time-picker-wrap, .hz-time-picker-content {
+// 切换年、月导航
+.hz-date-month-nav {
+  text-align: center;
+  position: relative;
+  height: 36px;
+  line-height: 36px;
   font-size: 12px;
   color: @hz-date-picker-cell-color;
-  .hz-time-picker-day {
-    height: 36px;
-    line-height: 36px;
-    text-align: center;
-    border-bottom: @hz-date-picker-bottom-line;
-    font-weight: bold;
-  }
-  .hz-time-picker-content {
+  padding: 0 8px;
+  border-bottom: @hz-date-picker-bottom-line;
 
+  a {
+    font-weight: bold;
+    user-select: none;
+    cursor: pointer;
+    padding: 0 2px;
+    display: inline-block;
+
+    &:hover {
+      color: @hz-date-picker-blue-text;
+    }
+
+    &.select-year span {
+      width: 35px;
+      display: inline-block;
+    }
+
+    &.select-month span {
+      width: 15px;
+      display: inline-block;
+    }
+  }
+
+  i {
+    display: inline-block;
+    cursor: pointer;
+    height: 16px;
+    width: 16px;
+    margin: 10px 4px;
+  }
+
+  .pre-year {
+    position: absolute;
+    left: 8px;
+    background: url('./assets/icon-double-arrows-gray-left.svg') center center no-repeat;
+  }
+
+  .pre-month {
+    position: absolute;
+    left: 32px;
+    background: url('./assets/icon-single-arrows-gray-left.svg') center center no-repeat;
+  }
+
+  .next-month {
+    position: absolute;
+    right: 32px;
+    background: url('./assets/icon-single-arrows-gray-left.svg') center center no-repeat;
+    transform: rotate(180deg);
+  }
+
+  .next-year {
+    position: absolute;
+    right: 8px;
+    background: url('./assets/icon-double-arrows-gray-left.svg') center center no-repeat;
+    transform: rotate(180deg);
   }
 }
+
+// range-date-picker 组件样式
+.hz-range-date-picker {
+  background: @hz-date-picker-bg;
+  box-shadow: @hz-date-picker-box-shadow;
+  border-radius: 8px;
+  padding: 1px;
+  .hz-range-date-wrap {
+    border-bottom: @hz-date-picker-bottom-line;
+    .hz-range-date-nav {
+      display: flex;
+      .hz-date-month-nav {
+        flex: 1;
+      }
+    }
+    .hz-time-picker-wrap {
+      display: inline-block;
+      border-right: @hz-date-picker-bottom-line;
+      &:last-child {
+        border-right: none;
+      }
+    }
+  }
+}
+
+// 时间 select 组件样式
 .hz-time-picker-select {
   height: 216px;
   font-size: 12px;
@@ -403,84 +251,145 @@
 
 }
 
-.hz-time-picker {
-  height: 36px;
-}
-
-.hz-time-picker-overlay {
-  background-color: #ffffff;
-  box-shadow: @hz-date-picker-box-shadow;
-  border-radius: 4px;
-  padding: 1px;
-  font-size: 12px;
-  .hz-time-picker-title{
-    height: 36px;
-    line-height: 24px;
-    border-bottom: @hz-date-picker-bottom-line;
-    display: flex;
-    padding: 6px 0;
-    box-sizing: border-box!important;
-    color: @hz-date-picker-thead-color;
-    .time-picker-input {
-      flex: 1;
-      height: 24px;
-      line-height: 24px;
-      padding: 0 16px;
-      input {
-        background-color: transparent;
-        color: @hz-date-picker-cell-color;
-        position: relative;
-        display: inline-block;
-        width: 100%;
-        padding: 4px 0;
-        border: 0;
-        outline: none;
-        height: 16px;
-        line-height: 16px;
-        box-shadow: none;
-        font-size: 12px;
-      }
+// 按钮样式
+.hz-date-actions {
+  text-align: right;
+  font-weight: bold;
+  padding-right: 8px;
+  height: 48px;
+  line-height: 48px;
+  font-size: 14px;
+  button {
+    color: #2B79FF;
+    outline: none;
+    border: none;
+    margin-right: 16px;
+    cursor: pointer;
+    height: 32px;
+    line-height: 20px;
+    padding: 6px 16px;
+    border-radius: 4px;
+    &:disabled {
+      cursor: not-allowed;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+    &:hover {
+      background: rgba(24,43,77,0.05);
     }
   }
-  .hz-time-picker-content {
-    border-bottom: @hz-date-picker-bottom-line;
-  }
-  .hz-time-picker-actions {
-    padding-right: 8px;
-  }
 }
-.hz-range-time-picker {
-  background-color: #ffffff;
-  box-shadow: @hz-date-picker-box-shadow;
-  border-radius: 8px;
-}
-.hz-range-time-input-wrap {
-  height: 36px;
-  font-size: 12px;
-  line-height: 24px;
-  border-bottom: @hz-date-picker-bottom-line;
-  display: flex;
-  padding: 6px 0;
-  box-sizing: border-box!important;
-  color: @hz-date-picker-thead-color;
-  .date-picker-input, .time-picker-input {
-    flex: 1;
-    height: 24px;
-    line-height: 24px;
-    padding: 0 16px;
-    input {
-      background-color: transparent;
+
+
+// outlet样式
+.hz-date-picker, .hz-time-picker {
+  .hz-date-outlet, .hz-range-date-outlet {
+    position: relative;
+    padding: 6px 24px 6px 0;
+    height: 32px;
+    width: 100%;
+    box-sizing: border-box!important;
+    display: flex;
+    border-bottom: 1px solid @hz-date-picker-blue-of-50;
+    color: @hz-date-picker-cell-color;
+    font-size: 12px;
+    input, .hz-range-date, .hz-range-time {
+      flex: 1;
       color: @hz-date-picker-cell-color;
       position: relative;
       display: inline-block;
       width: 100%;
-      padding: 4px 0;
+      padding: 2px 0;
       border: 0;
       outline: none;
       height: 16px;
       line-height: 16px;
       box-shadow: none;
       font-size: 12px;
+      background-color: transparent;
+    }
+    .range-to {
+      margin: 0 4px;
+    }
+    .icon-date-picker {
+      cursor: pointer;
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background: url('./assets/icon-date-picker-white.svg') center center no-repeat;
+      position: absolute;
+      right: 0;
+      top: 8px
     }
   }
 }
+
+// 弹窗时间显示区域样式
+.hz-date-input-wrap{
+  font-size: 12px;
+  height: 36px;
+  line-height: 24px;
+  border-bottom: @hz-date-picker-bottom-line;
+  display: flex;
+  padding: 6px 0;
+  box-sizing: border-box!important;
+  color: @hz-date-picker-thead-color;
+  .date-input {
+    flex: 1;
+    height: 24px;
+    line-height: 24px;
+    padding: 0 16px;
+  }
+}
+
+// time-picker 样式
+.hz-time-picker-overlay {
+  background-color: @hz-date-picker-bg;
+  box-shadow: @hz-date-picker-box-shadow;
+  border-radius: 4px;
+  padding: 1px;
+  font-size: 12px;
+  .hz-time-picker-content {
+    border-bottom: @hz-date-picker-bottom-line;
+  }
+}
+.hz-range-time-picker {
+  font-size: 12px;
+  background-color: @hz-date-picker-bg;
+  box-shadow: @hz-date-picker-box-shadow;
+  border-radius: 8px;
+  padding: 1px;
+  .hz-time-picker-content {
+    border-bottom: @hz-date-picker-bottom-line;
+    .hz-time-picker-select {
+      border-right: @hz-date-picker-bottom-line;
+    }
+  }
+}
+
+// date-picker 样式
+
+.hz-date-picker-single-container {
+  background: @hz-date-picker-bg;
+  box-shadow: @hz-date-picker-box-shadow;
+  border-radius: 8px;
+  padding: 1px;
+  .hz-date-wrap {
+    border-bottom: @hz-date-picker-bottom-line;
+  }
+}
+
+
+.hz-time-picker-wrap, .hz-time-picker-overlay {
+  font-size: 12px;
+  color: @hz-date-picker-cell-color;
+  .hz-time-picker-day {
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    border-bottom: @hz-date-picker-bottom-line;
+    font-weight: bold;
+  }
+}
+
