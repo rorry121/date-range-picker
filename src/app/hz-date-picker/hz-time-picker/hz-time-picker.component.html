@@ -1,4 +1,4 @@
-<section class="hz-time-picker" (click)="showOverlay()">
+<section class="hz-time-picker" (click)="showOverlay($event)">
   <article class="hz-time-picker-outlet" *ngIf="!isRange">
     <span *ngIf="type === 'date'">{{(time | date: format) || placeholder}}</span>
     <span *ngIf="type === 'string'">{{time || '请选择时间'}}</span>

@@ -24,7 +24,7 @@ import { TemplatePortal } from '@angular/cdk/portal';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HzTimePickerComponent implements OnInit, AfterViewInit, ControlValueAccessor {
-  time: string| number | Date | Date[];
+  time: string| number | Date | Date[] | string[];
   modalDate: Date;
   format: string;
   timePickerOverlayRef: OverlayRef;
@@ -130,7 +130,7 @@ export class HzTimePickerComponent implements OnInit, AfterViewInit, ControlValu
     }
   }
 
-  showOverlay() {
+  showOverlay(event: MouseEvent) {
     const StartAlignBottomWithTop: ConnectedPosition[] = [
       {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'top'},
       {originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'bottom'},
@@ -147,6 +147,11 @@ export class HzTimePickerComponent implements OnInit, AfterViewInit, ControlValu
       if (this.timeRangePickerOverlayRef && this.timeRangePickerOverlayRef.hasAttached()) {
         this.timeRangePickerOverlayRef.detach();
       } else {
+        if (this.onlyTime && this.type === 'string') {
+          if ((this.time as string[]).length === 2) {
+            this.rangeDate = [new Date('2000/1/1 ' + this.time[0]), new Date('2000/1/1 ' + this.time[1])];
+          }
+        }
         this.timeRangePickerOverlayRef = this.show(event.currentTarget as HTMLElement, this.timeRangePickerTemplate, this.vc, StartAlignBottomWithTop);
       }
     }
