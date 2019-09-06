@@ -72,8 +72,9 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
     this.cdf.detectChanges();
   }
 
-  onMonthChange(month: number) {
-    this.hzDateMonthComponent.curMonth = month;
+  onMonthChange(info: {year: number; month: number}) {
+    this.hzDateMonthComponent.curMonth = info.month;
+    this.hzDateMonthComponent.curYear = info.year;
     this.hzDateMonthComponent.makeMonthCells();
     this.singleModalType = 0;
     this.cdf.detectChanges();

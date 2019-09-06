@@ -23,7 +23,7 @@ export class HzYearMonthSelectComponent implements OnInit {
 
   @Input() month;
   @Output() yearChange = new EventEmitter<number>();
-  @Output() monthChange = new EventEmitter<number>();
+  @Output() monthChange = new EventEmitter<{year: number; month: number}>();
   @HostBinding('style.display') display = 'inline-block';
 
   constructor() {
@@ -59,16 +59,24 @@ export class HzYearMonthSelectComponent implements OnInit {
 
   selectMonth(num: number) {
     this.month = num + 1;
-    this.monthChange.emit(this.month);
+    this.monthChange.emit({year: this.curYear, month: this.month});
   }
 
   changeRecent(add: boolean) {
-    if (add) {
-      this.recentStartYear = this.recentStartYear - 10;
-      this.makeRecentYear();
+    if (this.month) {
+      if (add) {
+        this.curYear = this.curYear + 1;
+      } else {
+        this.curYear = this.curYear - 1;
+      }
     } else {
-      this.recentStartYear = this.recentStartYear + 10;
-      this.makeRecentYear();
+      if (add) {
+        this.recentStartYear = this.recentStartYear + 10;
+        this.makeRecentYear();
+      } else {
+        this.recentStartYear = this.recentStartYear - 10;
+        this.makeRecentYear();
+      }
     }
   }
 }

@@ -481,8 +481,9 @@ export class HzDateRangeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.reloadChildCells(false);
   }
 
-  onRightMonthChange(month: number) {
-    this.RDMComponent.curMonth = month;
+  onRightMonthChange(info: {year: number; month: number}) {
+    this.RDMComponent.curYear = info.year;
+    this.RDMComponent.curMonth = info.month;
     this.rightModalType = 0;
     if (this.compareDateComp() === 0) {
       this.RDMComponent.changeMonth(true);
@@ -500,8 +501,9 @@ export class HzDateRangeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.reloadChildCells(true);
   }
 
-  onLeftMonthChange(month: number) {
-    this.LDMComponent.curMonth = month;
+  onLeftMonthChange(info: {year: number; month: number}) {
+    this.LDMComponent.curYear = info.year;
+    this.LDMComponent.curMonth = info.month;
     this.leftModalType = 0;
     if (this.compareDateComp() === 0) {
       this.RDMComponent.changeMonth(true);
@@ -509,6 +511,7 @@ export class HzDateRangeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.reloadChildCells(true);
   }
+
 
   changeChildYear(bool: boolean, left: boolean) {
     if (left) {
