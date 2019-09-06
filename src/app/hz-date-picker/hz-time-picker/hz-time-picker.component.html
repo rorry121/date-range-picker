@@ -20,7 +20,7 @@
     </article>
     <article class="hz-time-picker-content">
       <div *ngIf="!onlyTime" class="hz-time-picker-day">
-        <span>{{ modalDate | date: 'yyyy年MM月dd日'}}</span>
+        <span>{{ modalDate | date: 'yyyy年M月dd日'}}</span>
       </div>
       <hz-time-picker-select [(ngModel)]="modalDate" (timeClick)="onTimeClick($event)"></hz-time-picker-select>
     </article>

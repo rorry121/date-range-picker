@@ -20,13 +20,13 @@
         <span>{{(singleModalDate | date: format) || placeholder}}</span>
       </div>
     </article>
-    <article class="hz-date-wrap" [hidden]="singleModalType">
+    <article class="hz-date-wrap" [hidden]="singleModalType !== 0">
       <article class="hz-date-month-nav">
         <i class="pre-year" (click)="changeChildYear(false)"></i>
         <i class="pre-month" (click)="changeChildMonth(false)"></i>
         <span class="cur-year-month">
-              <a class="select-year"><span>{{hzDateMonthComponent?.curYear}}</span>年</a>
-              <a class="select-month"><span>{{hzDateMonthComponent?.curMonth}}</span>月</a>
+              <a class="select-year" (click)="singleModalType = 2"><span>{{hzDateMonthComponent?.curYear}}</span>年</a>
+              <a class="select-month" (click)="singleModalType = 3"><span>{{hzDateMonthComponent?.curMonth}}</span>月</a>
             </span>
         <i class="next-year" (click)="changeChildYear(true)"></i>
         <i class="next-month" (click)="changeChildMonth(true)"></i>
@@ -34,12 +34,18 @@
       <app-hz-date-month #HzDateMonthComponent [dateValue]="singleModalDate"
                          (cellClick)="onCellClick($event)"></app-hz-date-month>
     </article>
-    <article class="hz-date-wrap" [hidden]="!singleModalType">
+    <article class="hz-date-wrap" *ngIf="singleModalType === 1">
       <ng-container [ngTemplateOutlet]="singleTimePickerTemplate"></ng-container>
+    </article>
+    <article class="hz-date-wrap" *ngIf="singleModalType === 2">
+      <app-hz-year-month-select [year]="hzDateMonthComponent?.curYear" (yearChange)="onYearChange($event)"></app-hz-year-month-select>
+    </article>
+    <article class="hz-date-wrap" *ngIf="singleModalType === 3">
+      <app-hz-year-month-select [year]="hzDateMonthComponent?.curYear" [month]="hzDateMonthComponent?.curMonth" (monthChange)="onMonthChange($event)"></app-hz-year-month-select>
     </article>
     <article class="hz-date-actions">
       <button [disabled]="!singleModalDate" (click)="changeModelType()">{{singleModalType ? '选择日期' : '选择时间'}}</button>
-      <button (click)="onSingleConfirm()">确定</button>
+      <button [disabled]="!singleModalDate" (click)="onSingleConfirm()">确定</button>
       <button (click)="closeSingleModal()">取消</button>
     </article>
   </section>

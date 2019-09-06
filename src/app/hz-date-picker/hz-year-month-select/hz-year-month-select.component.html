@@ -1,0 +1,31 @@
+<section>
+  <article class="hz-date-month-nav">
+    <i class="pre-year" (click)="changeRecent(false)"></i>
+    <span class="cur-year-range" *ngIf="!month">
+              <span>{{recentStartYear}}</span>
+              <span> - </span>
+              <span>{{recentStartYear + 9}}</span>
+    </span>
+    <span class="cur-year" *ngIf="month">{{curYear}}</span>
+    <i class="next-year" (click)="changeRecent(true)"></i>
+  </article>
+  <article class="hz-year-month-select-wrap">
+    <ng-container *ngIf="!month; else monthListTemplate">
+      <ul class="year-list">
+        <li *ngFor="let year of recentYear"
+            [ngClass]="{'active': curYear === year.value, 'not-current': year.isLast || year.isNext}"
+            (click)="selectYear(year)"
+        >{{year.value}}</li>
+      </ul>
+    </ng-container>
+  </article>
+</section>
+
+<ng-template #monthListTemplate>
+  <ul class="month-list">
+    <li *ngFor="let item of monthList; let i = index"
+        [ngClass]="{'active': month === (i + 1)}"
+        (click)="selectMonth(i)"
+    >{{i + 1}}月</li>
+  </ul>
+</ng-template>

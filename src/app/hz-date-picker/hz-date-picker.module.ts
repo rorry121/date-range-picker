@@ -8,16 +8,25 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { HzDateRangeComponent } from './hz-date-range/hz-date-range.component';
 import { HzTimePickerComponent } from './hz-time-picker/hz-time-picker.component';
 import { HzTimePickerSelectComponent } from './hz-time-picker-select/hz-time-picker-select.component';
-
+import { HzYearMonthSelectComponent } from './hz-year-month-select/hz-year-month-select.component';
 
 
 @NgModule({
-  declarations: [HzDatePickerComponent, HzDateCellComponent, HzDateMonthComponent, HzDateRangeComponent, HzTimePickerComponent, HzTimePickerSelectComponent],
+  declarations: [
+    HzDatePickerComponent,
+    HzDateCellComponent,
+    HzDateMonthComponent,
+    HzDateRangeComponent,
+    HzTimePickerComponent,
+    HzTimePickerSelectComponent,
+    HzYearMonthSelectComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
     OverlayModule
   ],
-  exports: [HzDatePickerComponent, HzTimePickerComponent]
+  exports: [HzDatePickerComponent, HzTimePickerComponent, HzYearMonthSelectComponent]
 })
-export class HzDatePickerModule { }
+export class HzDatePickerModule {
+}

@@ -34,7 +34,7 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
   @Input() placeholder: string | Array<string>;
   dateValue: CompatibleDate = null;
   singleModalDate: Date;
-  singleModalType: 0 | 1 = 0;
+  singleModalType: 0 | 1 | 2 | 3 = 0;
   rangeModalDate: Date[];
   singleDateOverlayRef: OverlayRef;
   rangeDateOverlayRef: OverlayRef;
@@ -65,12 +65,28 @@ export class HzDatePickerComponent implements OnInit, AfterViewInit, ControlValu
   ngAfterViewInit(): void {
   }
 
+  onYearChange(year: number) {
+    this.hzDateMonthComponent.curYear = year;
+    this.hzDateMonthComponent.makeMonthCells();
+    this.singleModalType = 0;
+    this.cdf.detectChanges();
+  }
+
+  onMonthChange(month: number) {
+    this.hzDateMonthComponent.curMonth = month;
+    this.hzDateMonthComponent.makeMonthCells();
+    this.singleModalType = 0;
+    this.cdf.detectChanges();
+  }
+
   changeChildYear(bool: boolean) {
     this.hzDateMonthComponent.changeYear(bool);
+    this.hzDateMonthComponent.makeMonthCells();
   }
 
   changeChildMonth(bool: boolean) {
     this.hzDateMonthComponent.changeMonth(bool);
+    this.hzDateMonthComponent.makeMonthCells();
   }
 
   initValue() {

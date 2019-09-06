@@ -32,9 +32,9 @@ export class HzTimePickerSelectComponent implements OnInit, AfterViewInit, Contr
 
   @Output() timeClick = new EventEmitter<Date>();
 
-  @ViewChild('hourScrollWrap', {static: false}) hourScrollWrap: ElementRef;
-  @ViewChild('minuteScrollWrap', {static: false}) minuteScrollWrap: ElementRef;
-  @ViewChild('secondScrollWrap', {static: false}) secondScrollWrap: ElementRef;
+  @ViewChild('hourScrollWrap', {static: true}) hourScrollWrap: ElementRef;
+  @ViewChild('minuteScrollWrap', {static: true}) minuteScrollWrap: ElementRef;
+  @ViewChild('secondScrollWrap', {static: true}) secondScrollWrap: ElementRef;
 
   @HostBinding('style.display') display = 'inline-block';
 
@@ -65,21 +65,39 @@ export class HzTimePickerSelectComponent implements OnInit, AfterViewInit, Contr
 
   changeHour(i: number) {
     this.activeHour = i;
+    console.log(this.hourScrollWrap.nativeElement.scrollTop);
     this.scrollToTop(i, this.hourScrollWrap);
   }
 
   changeMinute(i: number) {
     this.activeMinute = i;
+    console.log(this.minuteScrollWrap.nativeElement.scrollTop);
     this.scrollToTop(i, this.minuteScrollWrap);
   }
 
   changeSecond(i: number) {
     this.activeSecond = i;
+    console.log(this.secondScrollWrap.nativeElement.scrollTop);
     this.scrollToTop(i, this.secondScrollWrap);
   }
 
   scrollToTop(i: number, elementRef: ElementRef) {
-    elementRef.nativeElement.scrollTop = i * 24;
+    // elementRef.nativeElement.scrollTop = i * 24;
+    this.animateScroll(i,  elementRef);
+    this.cdf.detectChanges();
+  }
+
+  animateScroll(i, elementRef: ElementRef) {
+    const total = i * 24;
+    const distance = total - elementRef.nativeElement.scrollTop - 6;
+    if (distance > 0) {
+      elementRef.nativeElement.scrollTop = elementRef.nativeElement.scrollTop + 6;
+      setTimeout(() => {
+        this.animateScroll(i, elementRef);
+      }, 5);
+    } else {
+      elementRef.nativeElement.scrollTop = total;
+    }
   }
 
   getSelectTime() {
@@ -107,14 +125,19 @@ export class HzTimePickerSelectComponent implements OnInit, AfterViewInit, Contr
       console.log('writeValue:', value);
       this.setValue(value);
       if (!this.activeHour) {
-        this.changeHour(this.time.getHours());
+        const num = this.time.getHours();
+        this.activeHour = num;
+        this.hourScrollWrap.nativeElement.scrollTop = num * 24;
       }
       if (!this.activeMinute) {
-        this.changeMinute(this.time.getMinutes());
-
+        const num = this.time.getMinutes();
+        this.activeMinute = num;
+        this.minuteScrollWrap.nativeElement.scrollTop = num * 24;
       }
       if (!this.activeSecond) {
-        this.changeSecond(this.time.getSeconds());
+        const num = this.time.getSeconds();
+        this.activeSecond = num;
+        this.secondScrollWrap.nativeElement.scrollTop = num * 24;
       }
       this.cdf.detectChanges();
     }

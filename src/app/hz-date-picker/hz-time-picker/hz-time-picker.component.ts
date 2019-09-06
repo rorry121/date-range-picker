@@ -34,7 +34,7 @@ export class HzTimePickerComponent implements OnInit, AfterViewInit, ControlValu
 
   @Input() onlyTime = false;
   @Input() isRange = false;
-  @Input() rangeDate: Date[];
+  @Input() rangeDate: Date[] = [];
   @Input() type: 'string' | 'date' = 'date';
   @Input() placeholder: string | string[];
   @ViewChild('timePickerTemplate', {static: false}) timePickerTemplate: TemplateRef<any>;
@@ -56,7 +56,8 @@ export class HzTimePickerComponent implements OnInit, AfterViewInit, ControlValu
       if (!this.time) {
         this.time = [];
       }
-      this.rangeDate = [new Date('2000/1/1 00:00:00'), new Date('2000/1/1 00:00:00')];
+      this.rangeDate[0] = new Date('2000/1/1 00:00:00');
+      this.rangeDate[1] = new Date('2000/1/1 00:00:00');
     }
   }
 
@@ -149,7 +150,11 @@ export class HzTimePickerComponent implements OnInit, AfterViewInit, ControlValu
       } else {
         if (this.onlyTime && this.type === 'string') {
           if ((this.time as string[]).length === 2) {
-            this.rangeDate = [new Date('2000/1/1 ' + this.time[0]), new Date('2000/1/1 ' + this.time[1])];
+            this.rangeDate[0] = new Date('2000/1/1 ' + this.time[0]);
+            this.rangeDate[1] = new Date('2000/1/1 ' + this.time[1]);
+          } else {
+            this.rangeDate[0] = new Date('2000/1/1 00:00:00');
+            this.rangeDate[1] = new Date('2000/1/1 00:00:00');
           }
         }
         this.timeRangePickerOverlayRef = this.show(event.currentTarget as HTMLElement, this.timeRangePickerTemplate, this.vc, StartAlignBottomWithTop);

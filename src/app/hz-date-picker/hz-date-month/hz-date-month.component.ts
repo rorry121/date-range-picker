@@ -43,19 +43,19 @@ export class HzDateMonthComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() cellClick = new EventEmitter<DateDayCell>();
   @Output() rangeConfirm = new EventEmitter<Date[]>();
   @ViewChildren(HzDateCellComponent) listOfDateCellComponent: QueryList<HzDateCellComponent>;
-  @HostBinding('style.display') display = 'inline-block';
+  // @HostBinding('style.display') display = 'inline-block';
 
   constructor(
   ) {
   }
 
   ngOnInit() {
-    this.initDate();
-    this.makeMonthCells();
-    // if (!this.isRange) {
-    //   this.initDate();
-    //   this.makeMonthCells();
-    // }
+    // this.initDate();
+    // this.makeMonthCells();
+    if (!this.isRange) {
+      this.initDate();
+      this.makeMonthCells();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -141,13 +141,13 @@ export class HzDateMonthComponent implements OnInit, AfterViewInit, OnDestroy {
       if (cell.isSelectedEndDate) {
         this.rangeEndCell = cell;
       }
-      if (this.isRange && this.rangeDate[0] && this.rangeDate[1]) {
-        if (cell.value.getTime() < this.rangeDate[1].getTime() && cell.value.getTime() > this.rangeDate[0].getTime()) {
-          cell.isInRange = true;
-        } else {
-          cell.isInRange = false;
-        }
-      }
+      // if (this.isRange && this.rangeDate[0] && this.rangeDate[1]) {
+      //   if (cell.value.getTime() < this.rangeDate[1].getTime() && cell.value.getTime() > this.rangeDate[0].getTime()) {
+      //     cell.isInRange = true;
+      //   } else {
+      //     cell.isInRange = false;
+      //   }
+      // }
       this.monthCells.push(cell);
     }
   }

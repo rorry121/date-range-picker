@@ -24,7 +24,9 @@ export class HzDateRangeComponent implements OnInit, AfterViewInit, OnDestroy {
   tempRangeDate: DateDayCell[] = []; // 无序的
   destroy$ = new Subject();
   rangeSelected = false;
-  modalType: 0 | 1 = 1;
+  modalType: 0 | 1;
+  leftModalType: 0 | 1 | 2 = 0;
+  rightModalType: 0 | 1 | 2 = 0;
   @Input() rangeDate: Date[] = [];
   @Input() placeholder: Array<string>;
   @Input() format: string;
@@ -32,8 +34,8 @@ export class HzDateRangeComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() rangeConfirm = new EventEmitter<Date[]>();
   @Output() rangeCancel = new EventEmitter();
   @ViewChildren(HzDateMonthComponent) listOfHzDateMonthComponent: QueryList<HzDateMonthComponent>;
-  @ViewChild('LDMComponent', {static: false}) LDMComponent: HzDateMonthComponent;
-  @ViewChild('RDMComponent', {static: false}) RDMComponent: HzDateMonthComponent;
+  @ViewChild('LDMComponent', {static: true}) LDMComponent: HzDateMonthComponent;
+  @ViewChild('RDMComponent', {static: true}) RDMComponent: HzDateMonthComponent;
 
   constructor(
     private cdf: ChangeDetectorRef
@@ -41,13 +43,11 @@ export class HzDateRangeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    // this.changModalType();
   }
 
   ngAfterViewInit(): void {
-    // this.changModalType();
-    if (this.rangeDate[0] && this.rangeDate[1]) {
-      this.isCellInRange(0);
-    }
+    this.changModalType();
     // 左侧日期框点击
     const leftDMCChange$ = this.LDMComponent.listOfDateCellComponent.changes;
     leftDMCChange$.pipe(startWith(true), takeUntil(this.destroy$)).subscribe(() => {
@@ -305,11 +305,11 @@ export class HzDateRangeComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.tempRangeDate[0].value.getTime() < this.tempRangeDate[1].value.getTime()) {
         this.rangeDate[0] = this.tempRangeDate[0].value;
         this.rangeDate[1] = this.tempRangeDate[1].value;
-        this.rangeDate[1] = new Date(this.rangeDate[1].getTime());
+        this.rangeDate[1] = new Date(this.rangeDate[1].getTime() + ONE_DAY_MILLISECOND - 1);
       } else {
         this.rangeDate[0] = this.tempRangeDate[1].value;
         this.rangeDate[1] = this.tempRangeDate[0].value;
-        this.rangeDate[1] = new Date(this.rangeDate[1].getTime());
+        this.rangeDate[1] = new Date(this.rangeDate[1].getTime() + ONE_DAY_MILLISECOND - 1);
       }
       // 判断是不是同一月
       const isSame = this.isSameMonth(this.tempRangeDate[0].value, this.tempRangeDate[1].value);
@@ -450,13 +450,13 @@ export class HzDateRangeComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isCellInRange(0);
         this.rangeSelected = true;
       } else {
-        // this.LDMComponent.curMonth = new Date().getMonth() + 1;
-        // this.LDMComponent.curYear = new Date().getFullYear();
-        // this.LDMComponent.makeMonthCells();
-        // this.RDMComponent.curMonth = new Date().getMonth() + 1;
-        // this.RDMComponent.curYear = new Date().getFullYear();
-        // this.RDMComponent.changeMonth(true);
-        // this.RDMComponent.makeMonthCells();
+        this.LDMComponent.curMonth = new Date().getMonth() + 1;
+        this.LDMComponent.curYear = new Date().getFullYear();
+        this.LDMComponent.makeMonthCells();
+        this.RDMComponent.curMonth = new Date().getMonth() + 1;
+        this.RDMComponent.curYear = new Date().getFullYear();
+        this.RDMComponent.changeMonth(true);
+        this.RDMComponent.makeMonthCells();
       }
       this.cdf.detectChanges();
     }
@@ -470,6 +470,44 @@ export class HzDateRangeComponent implements OnInit, AfterViewInit, OnDestroy {
   // 判断大小, 0 表示相等, 大于0 表示右大， 小于0表示左大, 其中绝对值为1，表示相邻; -1 表示相邻且左大; 1 表示相邻且右大，
   compareDateComp(): number {
     return (this.RDMComponent.curYear * 12 + this.RDMComponent.curMonth - this.LDMComponent.curYear * 12 - this.LDMComponent.curMonth);
+  }
+
+  onRightYearChange(year: number) {
+    this.RDMComponent.curYear = year;
+    this.rightModalType = 0;
+    if (this.compareDateComp() === 0) {
+      this.RDMComponent.changeMonth(true);
+    }
+    this.reloadChildCells(false);
+  }
+
+  onRightMonthChange(month: number) {
+    this.RDMComponent.curMonth = month;
+    this.rightModalType = 0;
+    if (this.compareDateComp() === 0) {
+      this.RDMComponent.changeMonth(true);
+    }
+    this.reloadChildCells(false);
+  }
+
+  onLeftYearChange(year: number) {
+    this.LDMComponent.curYear = year;
+    this.leftModalType = 0;
+    if (this.compareDateComp() === 0) {
+      this.RDMComponent.changeMonth(true);
+      this.reloadChildCells(false);
+    }
+    this.reloadChildCells(true);
+  }
+
+  onLeftMonthChange(month: number) {
+    this.LDMComponent.curMonth = month;
+    this.leftModalType = 0;
+    if (this.compareDateComp() === 0) {
+      this.RDMComponent.changeMonth(true);
+      this.reloadChildCells(false);
+    }
+    this.reloadChildCells(true);
   }
 
   changeChildYear(bool: boolean, left: boolean) {

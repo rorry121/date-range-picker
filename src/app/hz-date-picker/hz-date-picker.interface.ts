@@ -1,4 +1,3 @@
-
 export interface DateDayCell {
   value: Date;
   title: string;
@@ -12,11 +11,8 @@ export interface DateDayCell {
   isNextMonth?: boolean;
 }
 
-export interface DateWeekRows {
-  isCurrent?: boolean; // Is the week that today stays in
-  isActive?: boolean; // Is the week that current setting date stays in
-  weekNum?: number;
-  year?: number;
-  classMap?: object;
-  dateCells: DateDayCell[];
+export interface RecentYearCell {
+  value: number;
+  isLast: boolean;
+  isNext: boolean;
 }

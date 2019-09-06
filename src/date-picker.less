@@ -119,14 +119,25 @@
 
 // 切换年、月导航
 .hz-date-month-nav {
+  display: inline-block;
+  width: 248px;
+  box-sizing: border-box!important;
   text-align: center;
   position: relative;
   height: 36px;
   line-height: 36px;
   font-size: 12px;
+  font-weight: bold;
   color: @hz-date-picker-cell-color;
   padding: 0 8px;
   border-bottom: @hz-date-picker-bottom-line;
+
+  .cur-year-range {
+    cursor: pointer;
+    &:hover {
+      color: @hz-date-picker-blue-text;
+    }
+  }
 
   a {
     font-weight: bold;
@@ -192,15 +203,27 @@
   border-radius: 8px;
   padding: 1px;
   .hz-range-date-wrap {
+    width: 497px;
+    height: 253px;
     border-bottom: @hz-date-picker-bottom-line;
-    .hz-range-date-nav {
-      display: flex;
-      .hz-date-month-nav {
-        flex: 1;
+    .hz-date-month-wrap {
+      width: 248px;
+      &.float-left {
+        float: left;
+      }
+      &.float-right {
+        float: right;
       }
     }
     .hz-time-picker-wrap {
+      box-sizing: border-box!important;
       display: inline-block;
+      &.float-left {
+        float: left;
+      }
+      &.float-right {
+        float: right;
+      }
       border-right: @hz-date-picker-bottom-line;
       &:last-child {
         border-right: none;
@@ -364,6 +387,9 @@
     border-bottom: @hz-date-picker-bottom-line;
     .hz-time-picker-select {
       border-right: @hz-date-picker-bottom-line;
+      &:last-child {
+        border-right: none;
+      }
     }
   }
 }
@@ -371,6 +397,7 @@
 // date-picker 样式
 
 .hz-date-picker-single-container {
+  width: 248px;
   background: @hz-date-picker-bg;
   box-shadow: @hz-date-picker-box-shadow;
   border-radius: 8px;
@@ -390,6 +417,53 @@
     text-align: center;
     border-bottom: @hz-date-picker-bottom-line;
     font-weight: bold;
+  }
+}
+
+.hz-year-month-select-wrap {
+  height: 216px;
+  color: @hz-date-picker-cell-color;
+  font-size: 12px;
+  .year-list {
+    li {
+      &.not-current {
+        opacity: .3;
+        background-color: unset;
+        color: unset;
+      }
+    }
+  }
+
+  .month-list {
+
+  }
+
+  ul {
+    width: 248px;
+    margin: 0;
+    padding: 12px 0;
+    list-style: none;
+    li {
+      user-select: none;
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+      width: 42px;
+      height: 24px;
+      padding: 0 8px;
+      line-height: 24px;
+      margin: 12px;
+      &:hover {
+        background-color: @hz-date-picker-cell-hover-bg;
+        border-radius: 2px;
+      }
+      &.active {
+        background-color: @hz-date-picker-cell-selected-bg;
+        border-radius: 2px;
+        color: rgba(255, 255, 255);
+        font-weight: bold;
+      }
+    }
   }
 }
 
