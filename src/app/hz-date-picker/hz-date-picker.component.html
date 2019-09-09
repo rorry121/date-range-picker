@@ -44,7 +44,7 @@
       <app-hz-year-month-select [year]="hzDateMonthComponent?.curYear" [month]="hzDateMonthComponent?.curMonth" (monthChange)="onMonthChange($event)"></app-hz-year-month-select>
     </article>
     <article class="hz-date-actions">
-      <button [disabled]="!singleModalDate" (click)="changeModelType()">{{singleModalType ? '选择日期' : '选择时间'}}</button>
+      <button *ngIf="showTime" [disabled]="!singleModalDate" (click)="changeModelType()">{{singleModalType ? '选择日期' : '选择时间'}}</button>
       <button [disabled]="!singleModalDate" (click)="onSingleConfirm()">确定</button>
       <button (click)="closeSingleModal()">取消</button>
     </article>

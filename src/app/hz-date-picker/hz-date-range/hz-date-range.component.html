@@ -52,7 +52,7 @@
     <ng-container *ngTemplateOutlet="rangeTimePickerTemplate"></ng-container>
   </article>
   <article class="hz-date-actions">
-    <button (click)="changModalType()" [disabled]="!rangeSelected">{{modalType ? '选择时间': '选择日期'}}</button>
+    <button *ngIf="showTime" (click)="changModalType()" [disabled]="!rangeSelected">{{modalType ? '选择时间': '选择日期'}}</button>
     <button [disabled]="!rangeSelected" (click)="rangeConfirmClick()">确定</button>
     <button (click)="rangeCancelClick()">取消</button>
   </article>
